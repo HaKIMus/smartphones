@@ -1,0 +1,46 @@
+version: '3'
+services:
+  apache:
+    build: .docker/apache
+    container_name: smartphones_apache
+    ports:
+    - 8080:80
+    volumes:
+    - .docker/config/vhosts:/etc/apache2/sites-enabled
+    - .:/var/www/html/smartphones
+    depends_on:
+    - php
+
+  mysql:
+    image: mysql:5.7
+    container_name: smartphones_mysql
+    volumes:
+    - .docker/data/db:/var/lib/mysql
+    ports:
+    - 8090:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: smartphones
+      MYSQL_DATABASE: smartphones
+      MYSQL_USER: smartphones
+      MYSQL_PASSWORD: smartphones
+
+  php:
+    build: .docker/php
+    container_name: smartphones_php
+    volumes:
+    - .:/var/www/html/smartphones
+    environment:
+    - maildev_host=smartphones_maildev
+    depends_on:
+    - mysql
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: smartphones_phpmyadmin
+    environment:
+      PMA_HOST: mysql
+      PMA_PORT: 3306
+    ports:
+    - 8070:80
+    links:
+    - mysql
