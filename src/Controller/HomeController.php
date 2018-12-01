@@ -15,7 +15,6 @@ class HomeController extends Controller
      */
     public function index(): Response
     {
-        return new Response('Hello world!');
-        // TODO implement the index method
+        return new Response('smile');
     }
 }

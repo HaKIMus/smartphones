@@ -7,7 +7,7 @@ namespace App\Model\Smartphone;
 use App\Model\Exception\Smartphone\UnknownCompanyException;
 use App\Model\Exception\Smartphone\UnknownModelException;
 
-final class Model
+final class Model implements \JsonSerializable
 {
     const COMPANIES = [
         'ALONESUNG',
@@ -28,6 +28,9 @@ final class Model
 
     public static function chooseFromList(string $company, string $model): self
     {
+        $company = mb_strtoupper($company);
+        $model = mb_strtoupper($model);
+
         if (!self::givenCompanyExist($company)) {
             throw new UnknownCompanyException(sprintf(
                 'There is no company like %s',
@@ -61,9 +64,41 @@ final class Model
         return $this->model;
     }
 
+    public function toArray(): array
+    {
+        return [
+            $this->company,
+            $this->model,
+        ];
+    }
+
+    public function __toString(): string
+    {
+        return json_encode([
+                'company' => $this->company,
+                'model' => $this->model,
+            ]
+        );
+    }
+
+    /**
+     * Specify data which should be serialized to JSON
+     * @link https://php.net/manual/en/jsonserializable.jsonserialize.php
+     * @return mixed data which can be serialized by <b>json_encode</b>,
+     * which is a value of any type other than a resource.
+     * @since 5.4.0
+     */
+    public function jsonSerialize(): array
+    {
+        return [
+            'company' => $this->company,
+            'model' => $this->model,
+        ];
+    }
+
     private static function givenCompanyExist(string $company): bool
     {
-        if(in_array($company, self::COMPANIES)) {
+        if (in_array($company, self::COMPANIES)) {
             return true;
         }
 

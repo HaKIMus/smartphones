@@ -21,7 +21,7 @@ final class Id
         return new self(Uuid::uuid4());
     }
 
-    public function __construct(UuidInterface $uuid)
+    private function __construct(UuidInterface $uuid)
     {
         $this->id = $uuid;
     }
