@@ -8,6 +8,8 @@ parameters:
 doctrine:
     dbal:
         # configure these for your database server
+        types:
+            smartphone_id: App\Types\SmartphoneIdType
         driver: 'pdo_mysql'
         server_version: '5.7'
         charset: utf8mb4

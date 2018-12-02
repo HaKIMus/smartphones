@@ -19,6 +19,10 @@ final class Model implements \JsonSerializable
         'ALONESUNG' => [
             'MILKY WAY 1',
             'MILKY WAY 2',
+        ],
+        'MYPHONE' => [
+            '1',
+            '2'
         ]
     ];
 

@@ -22,9 +22,7 @@ final class Smartphone
      * @var Id
      *
      * @ORM\Id
-     * @ORM\Column(type="uuid", unique=true)
-     * @ORM\GeneratedValue(strategy="CUSTOM")
-     * @ORM\CustomIdGenerator(class="Ramsey\Uuid\Doctrine\UuidOrderedTimeGenerator")
+     * @ORM\Column(type="smartphone_id", unique=true)
      */
     private $id;
 
@@ -69,6 +67,19 @@ final class Smartphone
         $this->id = $id;
         $this->model = $model;
         $this->releaseDate = $releaseDate;
+    }
+
+    public function updateSpecification(
+        Model $model,
+        ReleaseDate $releaseDate
+    ): self {
+        $updatedSmartphone = new self(
+            $this->id,
+            $model,
+            $releaseDate
+        );
+
+        return $updatedSmartphone;
     }
 
     private static function isCompatibleWithAcceptedReleaseDate(ReleaseDate $releaseDate): bool

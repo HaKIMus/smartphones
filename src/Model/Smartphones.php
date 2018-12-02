@@ -10,6 +10,8 @@ interface Smartphones
 {
     public function add(Smartphone $smartphone): void;
 
+    public function update(Smartphone $smartphone): void;
+
     public function remove(Smartphone $smartphone): void;
 
     public function findById(Id $id): ?Smartphone;

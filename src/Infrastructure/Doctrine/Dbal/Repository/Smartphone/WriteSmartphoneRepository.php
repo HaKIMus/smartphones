@@ -24,6 +24,12 @@ class WriteSmartphoneRepository extends ServiceEntityRepository
         $this->_em->flush();
     }
 
+    public function update(Smartphone $smartphone): void
+    {
+        $this->_em->merge($smartphone);
+        $this->_em->flush();
+    }
+
     public function remove(Smartphone $smartphone): void
     {
         $this->_em->remove($smartphone);
