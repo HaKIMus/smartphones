@@ -10,7 +10,7 @@ use App\Model\Smartphones;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
-class WriteSmartphoneRepository extends ServiceEntityRepository
+final class WriteSmartphoneRepository extends ServiceEntityRepository
                                 implements Smartphones
 {
     public function __construct(RegistryInterface $registry)

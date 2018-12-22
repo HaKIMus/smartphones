@@ -10,19 +10,10 @@ use Doctrine\DBAL\Types\ConversionException;
 use Doctrine\DBAL\Types\Type;
 use Ramsey\Uuid\Uuid;
 
-class SmartphoneIdType extends Type
+final class SmartphoneIdType extends Type
 {
-    /**
-     * @var string
-     */
     const NAME = 'smartphone_id';
 
-    /**
-     * {@inheritdoc}
-     *
-     * @param array                                     $fieldDeclaration
-     * @param \Doctrine\DBAL\Platforms\AbstractPlatform $platform
-     */
     public function getSQLDeclaration(array $fieldDeclaration, AbstractPlatform $platform): string
     {
         return $platform->getGuidTypeDeclarationSQL($fieldDeclaration);
@@ -47,7 +38,7 @@ class SmartphoneIdType extends Type
         return $uuid;
     }
 
-    public function convertToDatabaseValue($value, AbstractPlatform $platform)
+    public function convertToDatabaseValue($value, AbstractPlatform $platform): ?string
     {
         if (empty($value)) {
             return null;
@@ -66,23 +57,12 @@ class SmartphoneIdType extends Type
         throw ConversionException::conversionFailed($value, static::NAME);
     }
 
-    /**
-     * {@inheritdoc}
-     *
-     * @return string
-     */
-    public function getName()
+    public function getName(): string
     {
         return static::NAME;
     }
 
-    /**
-     * {@inheritdoc}
-     *
-     * @param \Doctrine\DBAL\Platforms\AbstractPlatform $platform
-     * @return boolean
-     */
-    public function requiresSQLCommentHint(AbstractPlatform $platform)
+    public function requiresSQLCommentHint(AbstractPlatform $platform): bool
     {
         return true;
     }

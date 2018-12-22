@@ -9,7 +9,7 @@ use App\Application\Query\SmartphoneQuery;
 use App\Model\Smartphone\Id;
 use Doctrine\DBAL\Connection;
 
-class ReadSmartphoneRepository implements SmartphoneQuery
+final class ReadSmartphoneRepository implements SmartphoneQuery
 {
     private $connection;
 
