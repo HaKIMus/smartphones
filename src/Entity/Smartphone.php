@@ -2,21 +2,21 @@
 
 declare(strict_types=1);
 
-namespace App\Model;
+namespace App\Entity;
 
-use App\Model\Exception\Smartphone\ReleasedTooLateException;
-use App\Model\Smartphone\ReleaseDate;
-use App\Model\Smartphone\Id;
-use App\Model\Smartphone\Model;
+use App\Entity\Exception\Smartphone\ReleasedTooLateException;
+use App\Entity\Smartphone\ReleaseDate;
+use App\Entity\Smartphone\Id;
+use App\Entity\Smartphone\Model;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Table(name="smartphones")
  * @ORM\Entity(repositoryClass="App\Infrastructure\Doctrine\Dbal\Repository\Smartphone\WriteSmartphoneRepository")
  */
-final class Smartphone
+final class Smartphone implements \JsonSerializable
 {
-    const ACCEPTED_RELEASE_DATE = 2012;
+    const MINIMUM_RELEASE_DATE = 2012;
 
     /**
      * @var Id
@@ -48,7 +48,7 @@ final class Smartphone
         if (self::isCompatibleWithAcceptedReleaseDate($releaseDate)) {
             throw new ReleasedTooLateException(sprintf(
                 'SmartphoneQuery can\'t be released before %s',
-                self::ACCEPTED_RELEASE_DATE
+                self::MINIMUM_RELEASE_DATE
             ));
         }
 
@@ -86,10 +86,26 @@ final class Smartphone
     {
         $releaseDate = (int) $releaseDate->releaseDate()->format('Y');
 
-        if ($releaseDate < self::ACCEPTED_RELEASE_DATE) {
+        if ($releaseDate < self::MINIMUM_RELEASE_DATE) {
             return true;
         }
 
         return false;
+    }
+
+    /**
+     * Specify data which should be serialized to JSON
+     * @link https://php.net/manual/en/jsonserializable.jsonserialize.php
+     * @return mixed data which can be serialized by <b>json_encode</b>,
+     * which is a value of any type other than a resource.
+     * @since 5.4.0
+     */
+    public function jsonSerialize(): array
+    {
+        return [
+            'id' => $this->id,
+            'model' => $this->model,
+            'releaseDate' => $this->releaseDate
+        ];
     }
 }

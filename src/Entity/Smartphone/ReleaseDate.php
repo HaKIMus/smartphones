@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Model\Smartphone;
+namespace App\Entity\Smartphone;
 
 final class ReleaseDate
 {

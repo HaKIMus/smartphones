@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Model;
 
-use App\Model\Smartphone\ReleaseDate;
+use App\Entity\Smartphone\ReleaseDate;
 use PHPUnit\Framework\TestCase;
 
 class ReleaseDateTest extends TestCase

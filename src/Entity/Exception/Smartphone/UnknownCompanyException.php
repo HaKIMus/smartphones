@@ -2,8 +2,8 @@
 
 declare(strict_types=1);
 
-namespace App\Model\Exception\Smartphone;
+namespace App\Entity\Exception\Smartphone;
 
-use App\Model\Exception\Exception;
+use App\Entity\Exception\Exception;
 
 final class UnknownCompanyException extends Exception {}

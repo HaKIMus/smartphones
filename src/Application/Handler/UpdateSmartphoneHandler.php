@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace App\Application\Handler;
 
 use App\Application\Command\UpdateSmartphoneCommand;
-use App\Model\Smartphone;
-use App\Model\Smartphone\Id;
-use App\Model\Smartphones;
+use App\Entity\Smartphone;
+use App\Entity\Smartphone\Id;
+use App\Entity\Smartphones;
 
 final class UpdateSmartphoneHandler
 {
@@ -27,7 +27,7 @@ final class UpdateSmartphoneHandler
                 $command->getModel()['company'],
                 $command->getModel()['model']
             ),
-            Smartphone\ReleaseDate::fromImmutableDateTime(new \DateTimeImmutable('now'))
+            Smartphone\ReleaseDate::fromImmutableDateTime(new \DateTimeImmutable($command->getReleaseDate()))
         );
 
         $this->smartphones->update($updatedSmartphone);

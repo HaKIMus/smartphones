@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Model\Smartphone;
 
-use App\Model\Smartphone\Id;
+use App\Entity\Smartphone\Id;
 use PHPUnit\Framework\TestCase;
 
 class IdTest extends TestCase

@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\Model\Smartphone;
+namespace App\Entity\Smartphone;
 
-use App\Model\Exception\Smartphone\UnknownCompanyException;
-use App\Model\Exception\Smartphone\UnknownModelException;
+use App\Entity\Exception\Smartphone\UnknownCompanyException;
+use App\Entity\Exception\Smartphone\UnknownModelException;
 
 final class Model implements \JsonSerializable
 {

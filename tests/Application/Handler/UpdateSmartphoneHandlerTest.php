@@ -10,9 +10,9 @@ use App\Application\Handler\CreateNewSmartphoneHandler;
 use App\Application\Handler\RemoveSmartphoneHandler;
 use App\Application\Handler\UpdateSmartphoneHandler;
 use App\Infrastructure\Doctrine\Dbal\Repository\Smartphone\WriteSmartphoneRepository;
-use App\Model\Smartphone;
-use App\Model\Smartphone\Id;
-use App\Model\Smartphone\Model;
+use App\Entity\Smartphone;
+use App\Entity\Smartphone\Id;
+use App\Entity\Smartphone\Model;
 use PHPUnit\Framework\TestCase;
 
 class UpdateSmartphoneHandlerTest extends TestCase

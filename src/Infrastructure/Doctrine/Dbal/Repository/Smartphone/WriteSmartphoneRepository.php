@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Doctrine\Dbal\Repository\Smartphone;
 
-use App\Model\Smartphone;
-use App\Model\Smartphone\Id;
-use App\Model\Smartphones;
+use App\Entity\Smartphone;
+use App\Entity\Smartphone\Id;
+use App\Entity\Smartphones;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
-final class WriteSmartphoneRepository extends ServiceEntityRepository
+class WriteSmartphoneRepository extends ServiceEntityRepository
                                 implements Smartphones
 {
     public function __construct(RegistryInterface $registry)

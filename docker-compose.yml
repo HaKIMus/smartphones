@@ -11,11 +11,11 @@ services:
     depends_on:
     - php
 
-  mysql:
+  mysqlDev:
     image: mysql:5.7
-    container_name: smartphones_mysql
+    container_name: smartphones_mysql_dev
     volumes:
-    - .docker/data/db:/var/lib/mysql
+    - .docker/data/db:/var/lib/mysql_dev
     ports:
     - 8090:3306
     environment:
@@ -24,23 +24,24 @@ services:
       MYSQL_USER: smartphones
       MYSQL_PASSWORD: smartphones
 
+  mysqlTest:
+    image: mysql:5.7
+    container_name: smartphones_mysql_test
+    volumes:
+      - .docker/data/db_test:/var/lib/mysql_test
+    ports:
+      - 8091:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: smartphones
+      MYSQL_DATABASE: smartphones_test
+      MYSQL_USER: smartphones
+      MYSQL_PASSWORD: smartphones
+
   php:
     build: .docker/php
     container_name: smartphones_php
     volumes:
     - .:/var/www/html/smartphones
-    environment:
-    - maildev_host=smartphones_maildev
     depends_on:
-    - mysql
-
-  phpmyadmin:
-    image: phpmyadmin/phpmyadmin
-    container_name: smartphones_phpmyadmin
-    environment:
-      PMA_HOST: mysql
-      PMA_PORT: 3306
-    ports:
-    - 8070:80
-    links:
-    - mysql
+    - mysqlDev
+    - mysqlTest

@@ -6,10 +6,10 @@ namespace App\Infrastructure\Doctrine\Dbal\Repository\Smartphone;
 
 use App\Application\Query\Model\SmartphoneModel;
 use App\Application\Query\SmartphoneQuery;
-use App\Model\Smartphone\Id;
+use App\Entity\Smartphone\Id;
 use Doctrine\DBAL\Connection;
 
-final class ReadSmartphoneRepository implements SmartphoneQuery
+class ReadSmartphoneRepository implements SmartphoneQuery
 {
     private $connection;
 

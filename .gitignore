@@ -29,6 +29,8 @@
 !bin/console
 !bin/symfony_requirements
 /vendor/
+/.env.local
+/.env.*.local
 
 # Assets and user uploads
 /web/bundles/

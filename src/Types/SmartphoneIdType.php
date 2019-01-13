@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Types;
 
-use App\Model\Smartphone\Id;
+use App\Entity\Smartphone\Id;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Types\ConversionException;
 use Doctrine\DBAL\Types\Type;
