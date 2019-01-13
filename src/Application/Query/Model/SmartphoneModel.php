@@ -8,7 +8,7 @@ final class SmartphoneModel implements \JsonSerializable
 {
     private $id;
 
-    private $model;
+    private $specification;
 
     private $releaseDate;
 
@@ -18,7 +18,7 @@ final class SmartphoneModel implements \JsonSerializable
         string $releaseDate
     ) {
         $this->id = $id;
-        $this->model = $model;
+        $this->specification = $model;
         $this->releaseDate = $releaseDate;
     }
 
@@ -27,9 +27,9 @@ final class SmartphoneModel implements \JsonSerializable
         return $this->id;
     }
 
-    public function getModel(): array
+    public function getSpecification(): array
     {
-        return $this->model;
+        return $this->specification;
     }
 
     public function getReleaseDate(): string
@@ -37,18 +37,11 @@ final class SmartphoneModel implements \JsonSerializable
         return $this->releaseDate;
     }
 
-    /**
-     * Specify data which should be serialized to JSON
-     * @link https://php.net/manual/en/jsonserializable.jsonserialize.php
-     * @return mixed data which can be serialized by <b>json_encode</b>,
-     * which is a value of any type other than a resource.
-     * @since 5.4.0
-     */
     public function jsonSerialize(): array
     {
         return [
             'id' => $this->id,
-            'model' => $this->model,
+            'specification' => $this->specification,
             'releaseDate' => $this->releaseDate
         ];
     }

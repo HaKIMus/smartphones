@@ -8,17 +8,17 @@ final class CreateNewSmartphoneCommand
 {
     private $id;
 
-    private $model;
+    private $specification;
 
     private $releaseDate;
 
     public function __construct(
         string $id,
-        array $model,
+        array $specification,
         string $releaseDate
     ) {
         $this->id = $id;
-        $this->model = $model;
+        $this->specification = $specification;
         $this->releaseDate = $releaseDate;
     }
 
@@ -27,9 +27,9 @@ final class CreateNewSmartphoneCommand
         return $this->id;
     }
 
-    public function getModel(): array
+    public function getSpecification(): array
     {
-        return $this->model;
+        return $this->specification;
     }
 
     public function getReleaseDate(): string

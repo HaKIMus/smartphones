@@ -23,7 +23,7 @@ class ReadSmartphoneRepository implements SmartphoneQuery
         $queryBuilder = $this->connection->createQueryBuilder();
 
         $queryBuilder
-            ->select('id', 'model', 'release_date')
+            ->select('id', 'specification', 'release_date')
             ->from('smartphones')
             ->where('id = ?')
             ->setParameter(0, (string) $id)
@@ -40,7 +40,7 @@ class ReadSmartphoneRepository implements SmartphoneQuery
 
         return new SmartphoneModel(
             $smartphoneData['id'],
-            json_decode($smartphoneData['model'], true),
+            json_decode($smartphoneData['specification'], true),
             $smartphoneData['release_date']
         );
     }
@@ -53,7 +53,7 @@ class ReadSmartphoneRepository implements SmartphoneQuery
         $queryBuilder = $this->connection->createQueryBuilder();
 
         $queryBuilder
-            ->select('id', 'model', 'release_date')
+            ->select('id', 'specification', 'release_date')
             ->from('smartphones')
         ;
 
@@ -69,7 +69,7 @@ class ReadSmartphoneRepository implements SmartphoneQuery
         return array_map(function ($smartphoneData) {
             return new SmartphoneModel(
                 $smartphoneData['id'],
-                json_decode($smartphoneData['model'], true),
+                json_decode($smartphoneData['specification'], true),
                 $smartphoneData['release_date']
             );
         }, $smartphonesData);

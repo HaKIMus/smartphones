@@ -7,7 +7,7 @@ namespace Tests\Model;
 use App\Entity\Smartphone;
 use App\Entity\Smartphone\ReleaseDate;
 use App\Entity\Smartphone\Id;
-use App\Entity\Smartphone\Model;
+use App\Entity\Smartphone\Specification;
 use PHPUnit\Framework\TestCase;
 
 class SmartphoneTest extends TestCase
@@ -19,7 +19,7 @@ class SmartphoneTest extends TestCase
     {
         Smartphone::withSpecification(
             Id::generate(),
-            Model::chooseFromList('ALONESUNG', 'MILKY WAY 1'),
+            Specification::chooseOneFromList('ALONESUNG', 'MILKY WAY 1'),
 
             ReleaseDate::fromImmutableDateTime(\DateTimeImmutable::createFromFormat('d-m-Y', '16-06-2011'))
         );

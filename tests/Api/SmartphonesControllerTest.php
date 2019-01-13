@@ -50,7 +50,7 @@ class SmartphonesControllerTest extends WebTestCase
 
         $content = [
             'id' => $id,
-            'model' => [
+            'specification' => [
                 'model' => '1',
                 'company' => 'myphone'
             ],
@@ -79,7 +79,7 @@ class SmartphonesControllerTest extends WebTestCase
         $smartphoneResponse = $this->client->getResponse();
 
         $content = [
-            'model' => [
+            'specification' => [
                 'model' => '2',
                 'company' => 'myphone'
             ],
@@ -98,8 +98,8 @@ class SmartphonesControllerTest extends WebTestCase
 
         $this->assertJson($newSmartphoneResponse->getContent());
 
-        $oldModel = json_decode($smartphoneResponse->getContent(), true)['model']['model'];
-        $newModel = json_decode($newSmartphoneResponse->getContent(), true)['model']['model'];
+        $oldModel = json_decode($smartphoneResponse->getContent(), true)['specification']['model'];
+        $newModel = json_decode($newSmartphoneResponse->getContent(), true)['specification']['model'];
 
         $this->assertEquals(1, $oldModel);
         $this->assertEquals(2, $newModel);
@@ -115,7 +115,7 @@ class SmartphonesControllerTest extends WebTestCase
 
         $content = [
             'id' => $idOfResource,
-            'model' => [
+            'specification' => [
                 'model' => '2',
                 'company' => 'myphone'
             ],
@@ -134,8 +134,8 @@ class SmartphonesControllerTest extends WebTestCase
 
         $this->assertJson($newSmartphoneResponse->getContent());
 
-        $oldModel = json_decode($smartphoneResponse->getContent(), true)['model']['model'];
-        $newModel = json_decode($newSmartphoneResponse->getContent(), true)['model']['model'];
+        $oldModel = json_decode($smartphoneResponse->getContent(), true)['specification']['model'];
+        $newModel = json_decode($newSmartphoneResponse->getContent(), true)['specification']['model'];
 
         $this->assertEquals(1, $oldModel);
         $this->assertEquals(2, $newModel);
@@ -166,7 +166,7 @@ class SmartphonesControllerTest extends WebTestCase
 
         $content = [
             'id' => $id,
-            'model' => [
+            'specification' => [
                 'model' => '1',
                 'company' => 'myphone'
             ],

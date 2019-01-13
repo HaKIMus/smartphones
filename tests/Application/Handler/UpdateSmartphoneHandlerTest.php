@@ -12,7 +12,7 @@ use App\Application\Handler\UpdateSmartphoneHandler;
 use App\Infrastructure\Doctrine\Dbal\Repository\Smartphone\WriteSmartphoneRepository;
 use App\Entity\Smartphone;
 use App\Entity\Smartphone\Id;
-use App\Entity\Smartphone\Model;
+use App\Entity\Smartphone\Specification;
 use PHPUnit\Framework\TestCase;
 
 class UpdateSmartphoneHandlerTest extends TestCase
@@ -23,7 +23,7 @@ class UpdateSmartphoneHandlerTest extends TestCase
 
         $smartphoneMock = Smartphone::withSpecification(
             Id::generate(),
-            Model::chooseFromList('alonesung', 'milky way 1'),
+            Specification::chooseOneFromList('alonesung', 'milky way 1'),
             Smartphone\ReleaseDate::fromImmutableDateTime(
                 new \DateTimeImmutable('now')
             )

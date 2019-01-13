@@ -54,7 +54,7 @@ final class SmartphonesApi extends ApiController
     /**
      * To post new Smartphone you have to send the
      * * string $id,
-     * * array $model
+     * * array $specification
      * * string $releaseDate
      * data in json format.
      *
@@ -75,10 +75,10 @@ final class SmartphonesApi extends ApiController
                 }
 
                 $id = (string) $content['id'] ?? '';
-                $model = (array) $content['model'] ?? [];
+                $specification = (array) $content['specification'] ?? [];
                 $releaseDate = (string) $content['releaseDate'] ?? '';
 
-                $command = new CreateNewSmartphoneCommand($id, $model, $releaseDate);
+                $command = new CreateNewSmartphoneCommand($id, $specification, $releaseDate);
             } catch (\Exception $exception) {
                 return new Response('Some data missed', Response::HTTP_NOT_ACCEPTABLE);
             }
@@ -129,10 +129,10 @@ final class SmartphonesApi extends ApiController
                     return new JsonResponse(['message' => 'Wrong content type', 'statusCode' => Response::HTTP_NOT_ACCEPTABLE], Response::HTTP_NOT_ACCEPTABLE);
                 }
 
-                $model = (array) $content['model'] ?? [];
+                $specification = (array) $content['specification'] ?? [];
                 $releaseDate = (string) $content['releaseDate'] ?? '';
 
-                $command = new UpdateSmartphoneCommand($id, $model, $releaseDate);
+                $command = new UpdateSmartphoneCommand($id, $specification, $releaseDate);
             } catch (\Exception $e) {
                 return new JsonResponse(['message' => 'No required content', 'statusCode' => Response::HTTP_NOT_ACCEPTABLE], Response::HTTP_NOT_ACCEPTABLE);
             }
@@ -166,10 +166,10 @@ final class SmartphonesApi extends ApiController
                 }
 
                 $id = (string) $content['id'] ?? '';
-                $model = (array) $content['model'] ?? [];
+                $specification = (array) $content['specification'] ?? [];
                 $releaseDate = (string) $content['releaseDate'] ?? '';
 
-                $command = new UpdateSmartphoneCommand($id, $model, $releaseDate);
+                $command = new UpdateSmartphoneCommand($id, $specification, $releaseDate);
             } catch (\Exception $e) {
                 return new JsonResponse(['message' => 'No required content', 'statusCode' => Response::HTTP_NOT_ACCEPTABLE], Response::HTTP_NOT_ACCEPTABLE);
             }

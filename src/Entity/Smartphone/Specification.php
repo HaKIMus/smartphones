@@ -7,7 +7,7 @@ namespace App\Entity\Smartphone;
 use App\Entity\Exception\Smartphone\UnknownCompanyException;
 use App\Entity\Exception\Smartphone\UnknownModelException;
 
-final class Model implements \JsonSerializable
+final class Specification implements \JsonSerializable
 {
     const COMPANIES = [
         'ALONESUNG',
@@ -30,7 +30,7 @@ final class Model implements \JsonSerializable
 
     private $model;
 
-    public static function chooseFromList(string $company, string $model): self
+    public static function chooseOneFromList(string $company, string $model): self
     {
         $company = mb_strtoupper($company);
         $model = mb_strtoupper($model);
@@ -85,13 +85,6 @@ final class Model implements \JsonSerializable
         );
     }
 
-    /**
-     * Specify data which should be serialized to JSON
-     * @link https://php.net/manual/en/jsonserializable.jsonserialize.php
-     * @return mixed data which can be serialized by <b>json_encode</b>,
-     * which is a value of any type other than a resource.
-     * @since 5.4.0
-     */
     public function jsonSerialize(): array
     {
         return [

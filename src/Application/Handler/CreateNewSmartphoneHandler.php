@@ -21,9 +21,9 @@ final class CreateNewSmartphoneHandler
     {
         $smartphone = Smartphone::withSpecification(
             Smartphone\Id::fromString($command->getId()),
-            Smartphone\Model::chooseFromList(
-                $command->getModel()['company'],
-                $command->getModel()['model']
+            Smartphone\Specification::chooseOneFromList(
+                $command->getSpecification()['company'],
+                $command->getSpecification()['model']
             ),
             Smartphone\ReleaseDate::fromImmutableDateTime(
                 new \DateTimeImmutable($command->getReleaseDate()))

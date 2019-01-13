@@ -23,9 +23,9 @@ final class UpdateSmartphoneHandler
         $smartphone = $this->smartphones->findById(Id::fromString($command->getId()));
 
         $updatedSmartphone = $smartphone->updateSpecification(
-            Smartphone\Model::chooseFromList(
-                $command->getModel()['company'],
-                $command->getModel()['model']
+            Smartphone\Specification::chooseOneFromList(
+                $command->getSpecification()['company'],
+                $command->getSpecification()['model']
             ),
             Smartphone\ReleaseDate::fromImmutableDateTime(new \DateTimeImmutable($command->getReleaseDate()))
         );

@@ -4,17 +4,17 @@ declare(strict_types=1);
 
 namespace Tests\Model;
 
-use App\Entity\Smartphone\Model;
+use App\Entity\Smartphone\Specification;
 use PHPUnit\Framework\TestCase;
 
-class ModelTest extends TestCase
+class SpecificationTest extends TestCase
 {
     /**
      * @expectedException App\Entity\Exception\Smartphone\UnknownCompanyException
      */
     public function testChoosingModelByNotExistingCompany(): void
     {
-        Model::chooseFromList('Minifix', 'model');
+        Specification::chooseOneFromList('Minifix', 'model');
     }
 
     /**
@@ -22,6 +22,6 @@ class ModelTest extends TestCase
      */
     public function testChoosingModelByNotExistingModel(): void
     {
-        Model::chooseFromList(Model::COMPANIES[0], 'model');
+        Specification::chooseOneFromList(Specification::COMPANIES[0], 'model');
     }
 }

@@ -7,7 +7,7 @@ namespace App\Entity;
 use App\Entity\Exception\Smartphone\ReleasedTooLateException;
 use App\Entity\Smartphone\ReleaseDate;
 use App\Entity\Smartphone\Id;
-use App\Entity\Smartphone\Model;
+use App\Entity\Smartphone\Specification;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -27,11 +27,11 @@ final class Smartphone implements \JsonSerializable
     private $id;
 
     /**
-     * @var Model
+     * @var Specification
      *
      * @ORM\Column(type="json")
      */
-    private $model;
+    private $specification;
 
     /**
      * @var ReleaseDate
@@ -42,7 +42,7 @@ final class Smartphone implements \JsonSerializable
 
     public static function withSpecification(
         Id $id,
-        Model $model,
+        Specification $specification,
         ReleaseDate $releaseDate
     ): self {
         if (self::isCompatibleWithAcceptedReleaseDate($releaseDate)) {
@@ -54,28 +54,28 @@ final class Smartphone implements \JsonSerializable
 
         return new self(
             $id,
-            $model,
+            $specification,
             $releaseDate
         );
     }
 
     private function __construct(
         Id $id,
-        Model $model,
+        Specification $specification,
         ReleaseDate $releaseDate
     ) {
         $this->id = $id;
-        $this->model = $model;
+        $this->specification = $specification;
         $this->releaseDate = $releaseDate;
     }
 
     public function updateSpecification(
-        Model $model,
+        Specification $specification,
         ReleaseDate $releaseDate
     ): self {
         $updatedSmartphone = new self(
             $this->id,
-            $model,
+            $specification,
             $releaseDate
         );
 
@@ -93,18 +93,11 @@ final class Smartphone implements \JsonSerializable
         return false;
     }
 
-    /**
-     * Specify data which should be serialized to JSON
-     * @link https://php.net/manual/en/jsonserializable.jsonserialize.php
-     * @return mixed data which can be serialized by <b>json_encode</b>,
-     * which is a value of any type other than a resource.
-     * @since 5.4.0
-     */
     public function jsonSerialize(): array
     {
         return [
             'id' => $this->id,
-            'model' => $this->model,
+            'specification' => $this->specification,
             'releaseDate' => $this->releaseDate
         ];
     }
