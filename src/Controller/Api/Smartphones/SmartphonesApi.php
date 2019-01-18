@@ -151,43 +151,6 @@ final class SmartphonesApi extends ApiController
     }
 
     /**
-     * @Route("/", methods={"PATCH"})
-     */
-    public function patchSmartphone(Request $request): Response
-    {
-        try {
-            $this->isContentTypeEqualTo('json', $request->getContentType());
-
-            try {
-                $content = json_decode($request->getContent(), true);
-
-                if (!$content) {
-                    return new JsonResponse(['message' => 'Wrong content type', 'statusCode' => Response::HTTP_BAD_REQUEST], Response::HTTP_BAD_REQUEST);
-                }
-
-                $id = (string) $content['id'] ?? '';
-                $specification = (array) $content['specification'] ?? [];
-                $releaseDate = (string) $content['releaseDate'] ?? '';
-
-                $command = new UpdateSmartphoneCommand($id, $specification, $releaseDate);
-            } catch (\Exception $e) {
-                return new JsonResponse(['message' => 'No required content', 'statusCode' => Response::HTTP_BAD_REQUEST], Response::HTTP_BAD_REQUEST);
-            }
-
-            try {
-                $handler = new UpdateSmartphoneHandler($this->writeSmartphoneRepository);
-                $handler->handle($command);
-            } catch (\Exception $e) {
-                return new JsonResponse(['message' => 'Given data are not valid', 'statusCode' => Response::HTTP_BAD_REQUEST], Response::HTTP_BAD_REQUEST);
-            }
-
-            return new JsonResponse(['message' => 'Smartphone resource updated', 'statusCode' => Response::HTTP_OK], JsonResponse::HTTP_OK);
-        } catch (\Exception $e) {
-            return $this->internalServerErrorResponse();
-        }
-    }
-
-    /**
      * @Route("/{id}", methods={"DELETE"})
      */
     public function deleteSmartphone(string $id, Request $request): Response

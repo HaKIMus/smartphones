@@ -105,42 +105,6 @@ class SmartphonesControllerTest extends WebTestCase
         $this->assertEquals(2, $newModel);
     }
 
-    public function testPATCHMethod(): void
-    {
-        $idOfResource = $this->postTestResourceAndGetItsId();
-
-        $this->client->request('GET', '/api/v1/smartphones/' . $idOfResource);
-
-        $smartphoneResponse = $this->client->getResponse();
-
-        $content = [
-            'id' => $idOfResource,
-            'specification' => [
-                'model' => '2',
-                'company' => 'myphone'
-            ],
-            'releaseDate' => '02-11-2016'
-        ];
-
-        $this->client->request('PATCH', '/api/v1/smartphones/', [], [], ['CONTENT_TYPE' => true], json_encode($content));
-
-        $response = $this->client->getResponse();
-
-        $this->assertSame(Response::HTTP_OK, $response->getStatusCode());
-
-        $this->client->request('GET', '/api/v1/smartphones/' . $idOfResource);
-
-        $newSmartphoneResponse = $this->client->getResponse();
-
-        $this->assertJson($newSmartphoneResponse->getContent());
-
-        $oldModel = json_decode($smartphoneResponse->getContent(), true)['specification']['model'];
-        $newModel = json_decode($newSmartphoneResponse->getContent(), true)['specification']['model'];
-
-        $this->assertEquals(1, $oldModel);
-        $this->assertEquals(2, $newModel);
-    }
-
     public function testDELETEMethod(): void
     {
         $idOfResource = $this->postTestResourceAndGetItsId();
