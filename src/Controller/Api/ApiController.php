@@ -17,7 +17,7 @@ class ApiController extends AbstractController
                 $acutal,
                 $expected
             ),
-                Response::HTTP_NOT_ACCEPTABLE
+                Response::HTTP_BAD_REQUEST
             );
         }
 

@@ -1,9 +1,9 @@
 # smartphones
-Smartphones + REST API + Symfony 4 + PHPUnit + Docker in action
+Smartphones + REST API + Symfony 4 + PHPUnit + CQRS + Docker in action
 
 To set up application exec the following commands:
 
-    composer update
+    composer install
 
     docker-compose build
     docker-compose up -d
@@ -18,3 +18,10 @@ https://docs.docker.com/install/
 To run tests execute following command:
 
     php bin/phpspec run
+
+**TODO**
+
+- [x] Have a cup of coffee!
+- [ ] Write a short documentation about the REST API.
+- [ ] Refactor specification constants for God's sake!
+- [ ] Refactor API's handling of errors

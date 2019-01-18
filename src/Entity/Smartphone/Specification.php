@@ -22,13 +22,50 @@ final class Specification implements \JsonSerializable
         ],
         'MYPHONE' => [
             '1',
-            '2'
-        ]
+            '2',
+        ],
+    ];
+
+    const DETAILS = [
+        'ALONESUNG' => [
+            'MILKY WAY 1' => [
+                'DETAILS' => [
+                    'OS' => 'Druid',
+                    'SCREEN SIZE' => ['size' => '14.82', 'unit' => 'cm'],
+                    'SCREEN RESOLUTION' => ['size' => '3225x5436', 'unit' => 'pixel'],
+                ],
+            ],
+            'MILKY WAY 2' => [
+                'DETAILS' => [
+                    'OS' => 'Druid',
+                    'SCREEN SIZE' => ['size' => '14.82', 'unit' => 'cm'],
+                    'SCREEN RESOLUTION' => ['size' => '3225x5436', 'unit' => 'pixel'],
+                ],
+            ],
+        ],
+        'MYPHONE' => [
+            '1' => [
+                'DETAILS' => [
+                    'OS' => 'SoS',
+                    'SCREEN SIZE' => ['size' => '14.73', 'unit' => 'cm'],
+                    'SCREEN RESOLUTION' => ['size' => '1225x2436', 'unit' => 'pixel'],
+                ],
+            ],
+            '2' => [
+                'DETAILS' => [
+                    'OS' => 'SoS',
+                    'SCREEN SIZE' => ['size' => '16.73', 'unit' => 'cm'],
+                    'SCREEN RESOLUTION' => ['size' => '2225x4436', 'unit' => 'pixel'],
+                ],
+            ],
+        ],
     ];
 
     private $company;
 
     private $model;
+
+    private $details;
 
     public static function chooseOneFromList(string $company, string $model): self
     {
@@ -55,7 +92,10 @@ final class Specification implements \JsonSerializable
     private function __construct(string $company, string $model)
     {
         $this->company = $company;
+
         $this->model = $model;
+
+        $this->details = self::DETAILS[$company][$model];
     }
 
     public function getCompany(): string
@@ -68,11 +108,17 @@ final class Specification implements \JsonSerializable
         return $this->model;
     }
 
+    public function getDetails(): array
+    {
+        return $this->details;
+    }
+
     public function toArray(): array
     {
         return [
             $this->company,
             $this->model,
+            $this->details,
         ];
     }
 
@@ -81,6 +127,7 @@ final class Specification implements \JsonSerializable
         return json_encode([
                 'company' => $this->company,
                 'model' => $this->model,
+                'details' => $this->details,
             ]
         );
     }
@@ -90,6 +137,7 @@ final class Specification implements \JsonSerializable
         return [
             'company' => $this->company,
             'model' => $this->model,
+            'details' => $this->details,
         ];
     }
 

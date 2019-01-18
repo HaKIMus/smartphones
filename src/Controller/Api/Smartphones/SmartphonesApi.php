@@ -71,7 +71,7 @@ final class SmartphonesApi extends ApiController
                 $content = json_decode($request->getContent(), true);
 
                 if (!$content) {
-                    return new Response('No required content', Response::HTTP_NOT_ACCEPTABLE);
+                    return new Response('No required content', Response::HTTP_BAD_REQUEST);
                 }
 
                 $id = (string) $content['id'] ?? '';
@@ -80,14 +80,14 @@ final class SmartphonesApi extends ApiController
 
                 $command = new CreateNewSmartphoneCommand($id, $specification, $releaseDate);
             } catch (\Exception $exception) {
-                return new Response('Some data missed', Response::HTTP_NOT_ACCEPTABLE);
+                return new Response('Some data missed', Response::HTTP_BAD_REQUEST);
             }
 
             try {
                 $handler = new CreateNewSmartphoneHandler($this->writeSmartphoneRepository);
                 $handler->handle($command);
             } catch (\Exception $exception) {
-                return new Response('Given data are not valid', Response::HTTP_NOT_ACCEPTABLE);
+                return new Response('Given data are not valid', Response::HTTP_BAD_REQUEST);
             }
 
             return new Response('New smartphone created', Response::HTTP_OK);
@@ -126,7 +126,7 @@ final class SmartphonesApi extends ApiController
                 $content = json_decode($request->getContent(), true);
 
                 if (!$content) {
-                    return new JsonResponse(['message' => 'Wrong content type', 'statusCode' => Response::HTTP_NOT_ACCEPTABLE], Response::HTTP_NOT_ACCEPTABLE);
+                    return new JsonResponse(['message' => 'No content passed.', 'statusCode' => Response::HTTP_BAD_REQUEST], Response::HTTP_BAD_REQUEST);
                 }
 
                 $specification = (array) $content['specification'] ?? [];
@@ -134,14 +134,14 @@ final class SmartphonesApi extends ApiController
 
                 $command = new UpdateSmartphoneCommand($id, $specification, $releaseDate);
             } catch (\Exception $e) {
-                return new JsonResponse(['message' => 'No required content', 'statusCode' => Response::HTTP_NOT_ACCEPTABLE], Response::HTTP_NOT_ACCEPTABLE);
+                return new JsonResponse(['message' => 'No required content', 'statusCode' => Response::HTTP_BAD_REQUEST], Response::HTTP_BAD_REQUEST);
             }
 
             try {
                 $handler = new UpdateSmartphoneHandler($this->writeSmartphoneRepository);
                 $handler->handle($command);
             } catch (\Exception $e) {
-                return new JsonResponse(['message' => 'Given data are not valid', 'statusCode' => Response::HTTP_NOT_ACCEPTABLE], Response::HTTP_NOT_ACCEPTABLE);
+                return new JsonResponse(['message' => 'Given data are not valid', 'statusCode' => Response::HTTP_BAD_REQUEST], Response::HTTP_BAD_REQUEST);
             }
 
             return new JsonResponse(['message' => 'Smartphone resource updated', 'statusCode' => Response::HTTP_OK], JsonResponse::HTTP_OK);
@@ -162,7 +162,7 @@ final class SmartphonesApi extends ApiController
                 $content = json_decode($request->getContent(), true);
 
                 if (!$content) {
-                    return new JsonResponse(['message' => 'Wrong content type', 'statusCode' => Response::HTTP_NOT_ACCEPTABLE], Response::HTTP_NOT_ACCEPTABLE);
+                    return new JsonResponse(['message' => 'Wrong content type', 'statusCode' => Response::HTTP_BAD_REQUEST], Response::HTTP_BAD_REQUEST);
                 }
 
                 $id = (string) $content['id'] ?? '';
@@ -171,14 +171,14 @@ final class SmartphonesApi extends ApiController
 
                 $command = new UpdateSmartphoneCommand($id, $specification, $releaseDate);
             } catch (\Exception $e) {
-                return new JsonResponse(['message' => 'No required content', 'statusCode' => Response::HTTP_NOT_ACCEPTABLE], Response::HTTP_NOT_ACCEPTABLE);
+                return new JsonResponse(['message' => 'No required content', 'statusCode' => Response::HTTP_BAD_REQUEST], Response::HTTP_BAD_REQUEST);
             }
 
             try {
                 $handler = new UpdateSmartphoneHandler($this->writeSmartphoneRepository);
                 $handler->handle($command);
             } catch (\Exception $e) {
-                return new JsonResponse(['message' => 'Given data are not valid', 'statusCode' => Response::HTTP_NOT_ACCEPTABLE], Response::HTTP_NOT_ACCEPTABLE);
+                return new JsonResponse(['message' => 'Given data are not valid', 'statusCode' => Response::HTTP_BAD_REQUEST], Response::HTTP_BAD_REQUEST);
             }
 
             return new JsonResponse(['message' => 'Smartphone resource updated', 'statusCode' => Response::HTTP_OK], JsonResponse::HTTP_OK);
