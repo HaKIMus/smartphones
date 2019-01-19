@@ -47,7 +47,7 @@ final class Smartphone implements \JsonSerializable
     ): self {
         if (self::isCompatibleWithAcceptedReleaseDate($releaseDate)) {
             throw new ReleasedTooLateException(sprintf(
-                'SmartphoneQuery can\'t be released before %s',
+                'Smartphone can\'t be released before %s',
                 self::MINIMUM_RELEASE_DATE
             ));
         }

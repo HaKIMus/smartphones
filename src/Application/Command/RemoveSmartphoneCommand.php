@@ -10,7 +10,6 @@ final class RemoveSmartphoneCommand
 
     public function __construct(string $id)
     {
-
         $this->id = $id;
     }
 
