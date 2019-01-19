@@ -27,13 +27,16 @@ final class SmartphonesApi extends ApiController
 {
     private $smartphoneQuery;
     private $smartphones;
+    private $apiExceptionsHandler;
 
     public function __construct(
         SmartphoneQuery $smartphoneQuery,
-        Smartphones $smartphones
+        Smartphones $smartphones,
+        SmartphonesApiHandler $apiExceptionsHandler
     ) {
         $this->smartphoneQuery = $smartphoneQuery;
         $this->smartphones = $smartphones;
+        $this->apiExceptionsHandler = $apiExceptionsHandler;
     }
 
     /**
@@ -41,7 +44,7 @@ final class SmartphonesApi extends ApiController
      */
     public function getSmarthpones(): Response
     {
-        return SmartphonesApiHandler::readExceptionsHandler(function () {
+        return $this->apiExceptionsHandler->readExceptionsHandler(function () {
             $smartphones = $this->smartphoneQuery->findAll();
 
             if (!$smartphones) {
@@ -57,7 +60,7 @@ final class SmartphonesApi extends ApiController
      */
     public function getSmartphone(string $id): Response
     {
-        return SmartphonesApiHandler::readExceptionsHandler(function () use ($id) {
+        return $this->apiExceptionsHandler->readExceptionsHandler(function () use ($id) {
             $smartphone = $this->smartphoneQuery->findById(Id::fromString($id));
 
             if (!$smartphone) {
@@ -73,7 +76,7 @@ final class SmartphonesApi extends ApiController
      */
     public function postSmartphones(Request $request): Response
     {
-        return SmartphonesApiHandler::writeExceptionsHandler(function () use ($request) {
+        return $this->apiExceptionsHandler->writeExceptionsHandler(function () use ($request) {
             $this->isContentTypeEqualTo('json', $request->getContentType());
 
             $content = $this->getJsonContentTypeToAssocArray($request);
@@ -97,7 +100,7 @@ final class SmartphonesApi extends ApiController
      */
     public function putSmartphone(string $id, Request $request): Response
     {
-        return SmartphonesApiHandler::writeExceptionsHandler(function () use ($id, $request) {
+        return $this->apiExceptionsHandler->writeExceptionsHandler(function () use ($id, $request) {
             $this->isContentTypeEqualTo('json', $request->getContentType());
 
             $content = $this->getJsonContentTypeToAssocArray($request);
@@ -121,7 +124,7 @@ final class SmartphonesApi extends ApiController
      */
     public function deleteSmartphone(string $id, Request $request): Response
     {
-        return SmartphonesApiHandler::writeExceptionsHandler(function () use ($id, $request) {
+        return $this->apiExceptionsHandler->writeExceptionsHandler(function () use ($id, $request) {
             $command = new RemoveSmartphoneCommand($id);
             $handler = new RemoveSmartphoneHandler($this->smartphones);
 
