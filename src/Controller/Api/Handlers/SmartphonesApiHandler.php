@@ -65,7 +65,7 @@ final class SmartphonesApiHandler
                 return new JsonResponse($message, $status);
                 break;
             default:
-                return new JsonResponse(['message' => 'Something went wrong!'], $status);
+                return new JsonResponse($message, $status);
         }
     }
 }
