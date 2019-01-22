@@ -45,13 +45,6 @@ final class Smartphone implements \JsonSerializable
         Specification $specification,
         ReleaseDate $releaseDate
     ): self {
-        if (self::isCompatibleWithAcceptedReleaseDate($releaseDate)) {
-            throw new ReleasedTooLateException(sprintf(
-                'Smartphone can\'t be released before %s',
-                self::MINIMUM_RELEASE_DATE
-            ));
-        }
-
         return new self(
             $id,
             $specification,
@@ -64,6 +57,13 @@ final class Smartphone implements \JsonSerializable
         Specification $specification,
         ReleaseDate $releaseDate
     ) {
+        if (!self::isCompatibleWithAcceptedReleaseDate($releaseDate)) {
+            throw new ReleasedTooLateException(sprintf(
+                'Smartphone can\'t be released before %s',
+                self::MINIMUM_RELEASE_DATE
+            ));
+        }
+
         $this->id = $id;
         $this->specification = $specification;
         $this->releaseDate = $releaseDate;
@@ -87,10 +87,10 @@ final class Smartphone implements \JsonSerializable
         $releaseDate = (int) $releaseDate->releaseDate()->format('Y');
 
         if ($releaseDate < self::MINIMUM_RELEASE_DATE) {
-            return true;
+            return false;
         }
 
-        return false;
+        return true;
     }
 
     public function jsonSerialize(): array

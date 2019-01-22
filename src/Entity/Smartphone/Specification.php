@@ -69,6 +69,11 @@ final class Specification implements \JsonSerializable
 
     public static function chooseOneFromList(string $company, string $model): self
     {
+        return new self($company, $model);
+    }
+
+    private function __construct(string $company, string $model)
+    {
         $company = mb_strtoupper($company);
         $model = mb_strtoupper($model);
 
@@ -81,20 +86,14 @@ final class Specification implements \JsonSerializable
 
         if (!self::givenModelExist($model, $company)) {
             throw new UnknownModelException(sprintf(
-                'There is no model like %s',
+                'The company %s has no model like %s in our database',
+                $company,
                 $model
             ));
         }
 
-        return new self($company, $model);
-    }
-
-    private function __construct(string $company, string $model)
-    {
         $this->company = $company;
-
         $this->model = $model;
-
         $this->details = self::DETAILS[$company][$model];
     }
 
