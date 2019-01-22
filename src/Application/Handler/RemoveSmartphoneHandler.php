@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Application\Handler;
 
 use App\Application\Command\RemoveSmartphoneCommand;
-use App\Model\Smartphone;
-use App\Model\Smartphones;
+use App\Entity\Smartphone;
+use App\Entity\Smartphones;
 
 final class RemoveSmartphoneHandler
 {

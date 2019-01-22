@@ -7,7 +7,7 @@ namespace Tests\Application\Handler;
 use App\Application\Command\CreateNewSmartphoneCommand;
 use App\Application\Handler\CreateNewSmartphoneHandler;
 use App\Infrastructure\Doctrine\Dbal\Repository\Smartphone\WriteSmartphoneRepository;
-use App\Model\Smartphone\Id;
+use App\Entity\Smartphone\Id;
 use PHPUnit\Framework\TestCase;
 
 class CreateNewSmartphoneHandlerTest extends TestCase
@@ -35,6 +35,6 @@ class CreateNewSmartphoneHandlerTest extends TestCase
 
         $handler->handle($command);
 
-        $this->assertTrue(true); // I won't to disable "no assertion alert" option.
+        $this->assertTrue(true, 'This should already work');
     }
 }

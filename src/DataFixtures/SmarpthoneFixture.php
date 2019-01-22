@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\DataFixtures;
 
-use App\Model\Smartphone;
-use App\Model\Smartphone\Id;
-use App\Model\Smartphone\Model;
-use App\Model\Smartphone\ReleaseDate;
+use App\Entity\Smartphone;
+use App\Entity\Smartphone\Id;
+use App\Entity\Smartphone\Specification;
+use App\Entity\Smartphone\ReleaseDate;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
 
@@ -18,7 +18,7 @@ class SmarpthoneFixture extends Fixture
         for ($i = 0; $i < 20; $i++) {
             $smartphone = Smartphone::withSpecification(
                 Id::generate(),
-                Model::chooseFromList(
+                Specification::chooseOneFromList(
                     'alonesung',
                     'milky way 1'
                 ),

@@ -2,21 +2,21 @@
 
 declare(strict_types=1);
 
-namespace App\Model;
+namespace App\Entity;
 
-use App\Model\Exception\Smartphone\ReleasedTooLateException;
-use App\Model\Smartphone\ReleaseDate;
-use App\Model\Smartphone\Id;
-use App\Model\Smartphone\Model;
+use App\Entity\Exception\Smartphone\ReleasedTooLateException;
+use App\Entity\Smartphone\ReleaseDate;
+use App\Entity\Smartphone\Id;
+use App\Entity\Smartphone\Specification;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Table(name="smartphones")
  * @ORM\Entity(repositoryClass="App\Infrastructure\Doctrine\Dbal\Repository\Smartphone\WriteSmartphoneRepository")
  */
-final class Smartphone
+final class Smartphone implements \JsonSerializable
 {
-    const ACCEPTED_RELEASE_DATE = 2012;
+    const MINIMUM_RELEASE_DATE = 2012;
 
     /**
      * @var Id
@@ -27,11 +27,11 @@ final class Smartphone
     private $id;
 
     /**
-     * @var Model
+     * @var Specification
      *
      * @ORM\Column(type="json")
      */
-    private $model;
+    private $specification;
 
     /**
      * @var ReleaseDate
@@ -42,40 +42,40 @@ final class Smartphone
 
     public static function withSpecification(
         Id $id,
-        Model $model,
+        Specification $specification,
         ReleaseDate $releaseDate
     ): self {
-        if (self::isCompatibleWithAcceptedReleaseDate($releaseDate)) {
-            throw new ReleasedTooLateException(sprintf(
-                'SmartphoneQuery can\'t be released before %s',
-                self::ACCEPTED_RELEASE_DATE
-            ));
-        }
-
         return new self(
             $id,
-            $model,
+            $specification,
             $releaseDate
         );
     }
 
     private function __construct(
         Id $id,
-        Model $model,
+        Specification $specification,
         ReleaseDate $releaseDate
     ) {
+        if (!self::isCompatibleWithAcceptedReleaseDate($releaseDate)) {
+            throw new ReleasedTooLateException(sprintf(
+                'Smartphone can not be released before %s',
+                self::MINIMUM_RELEASE_DATE
+            ));
+        }
+
         $this->id = $id;
-        $this->model = $model;
+        $this->specification = $specification;
         $this->releaseDate = $releaseDate;
     }
 
     public function updateSpecification(
-        Model $model,
+        Specification $specification,
         ReleaseDate $releaseDate
     ): self {
         $updatedSmartphone = new self(
             $this->id,
-            $model,
+            $specification,
             $releaseDate
         );
 
@@ -86,10 +86,19 @@ final class Smartphone
     {
         $releaseDate = (int) $releaseDate->releaseDate()->format('Y');
 
-        if ($releaseDate < self::ACCEPTED_RELEASE_DATE) {
-            return true;
+        if ($releaseDate < self::MINIMUM_RELEASE_DATE) {
+            return false;
         }
 
-        return false;
+        return true;
+    }
+
+    public function jsonSerialize(): array
+    {
+        return [
+            'id' => $this->id,
+            'specification' => $this->specification,
+            'releaseDate' => $this->releaseDate
+        ];
     }
 }

@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Application\Query\Model;
 
-final class SmartphoneModel
+final class SmartphoneModel implements \JsonSerializable
 {
     private $id;
 
-    private $model;
+    private $specification;
 
     private $releaseDate;
 
@@ -18,7 +18,7 @@ final class SmartphoneModel
         string $releaseDate
     ) {
         $this->id = $id;
-        $this->model = $model;
+        $this->specification = $model;
         $this->releaseDate = $releaseDate;
     }
 
@@ -27,13 +27,22 @@ final class SmartphoneModel
         return $this->id;
     }
 
-    public function getModel(): array
+    public function getSpecification(): array
     {
-        return $this->model;
+        return $this->specification;
     }
 
     public function getReleaseDate(): string
     {
         return $this->releaseDate;
+    }
+
+    public function jsonSerialize(): array
+    {
+        return [
+            'id' => $this->id,
+            'specification' => $this->specification,
+            'releaseDate' => $this->releaseDate
+        ];
     }
 }

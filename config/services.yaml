@@ -28,3 +28,22 @@ services:
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
+    App\Entity\Smartphones: '@App\Infrastructure\Doctrine\Dbal\Repository\Smartphone\WriteSmartphoneRepository'
+
+    App\Infrastructure\Doctrine\Dbal\Repository\Smartphone\WriteSmartphoneRepository: ~
+
+    # COMMAND BUS
+    app.application.handler.create_new_smartphone:
+        class: App\Application\Handler\CreateNewSmartphoneHandler
+        tags:
+            - { name: tactician.handler, typehints: true }
+
+    app.application.handler.remove_smartphone:
+        class: App\Application\Handler\RemoveSmartphoneHandler
+        tags:
+            - { name: tactician.handler, typehints: true }
+
+    app.application.handler.update_smartphone:
+        class: App\Application\Handler\UpdateSmartphoneHandler
+        tags:
+          - { name: tactician.handler, typehints: true }
