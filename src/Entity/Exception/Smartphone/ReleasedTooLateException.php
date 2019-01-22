@@ -6,4 +6,4 @@ namespace App\Entity\Exception\Smartphone;
 
 use App\Entity\Exception\Exception;
 
-class ReleasedTooLateException extends Exception  {}
+final class ReleasedTooLateException extends Exception  {}
