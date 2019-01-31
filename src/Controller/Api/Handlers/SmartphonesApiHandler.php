@@ -5,9 +5,7 @@ declare(strict_types=1);
 namespace App\Controller\Api\Handlers;
 
 use App\Controller\Api\Smartphones\SmartphonesApi;
-use App\Entity\Exception\Smartphone\ReleasedTooLateException;
-use App\Entity\Exception\Smartphone\UnknownCompanyException;
-use App\Entity\Exception\Smartphone\UnknownModelException;
+use App\Entity\Exception\InvalidArgumentException as EntityInvalidArgumentException;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Ramsey\Uuid\Exception\InvalidUuidStringException;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -40,9 +38,9 @@ final class SmartphonesApiHandler
     {
         try {
             return $codeToHandle();
-        } catch (ReleasedTooLateException | UnknownCompanyException | UnknownModelException $smartphoneException) {
+        } catch (EntityInvalidArgumentException $invalidArgumentException) {
             return $this->returnResponse([
-                'message' => $smartphoneException->getMessage(),
+                'message' => $invalidArgumentException->getMessage(),
                 'status' => Response::HTTP_BAD_REQUEST,
             ], Response::HTTP_BAD_REQUEST);
         } catch (\InvalidArgumentException | InvalidUuidStringException $invalidArgumentException) {
