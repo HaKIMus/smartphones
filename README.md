@@ -23,7 +23,6 @@ To run tests execute following command:
 
 - [x] Have a cup of coffee!
 - [x] Write a short documentation about the REST API.
-- [ ] Refactor specification constants for God's sake!
 - [x] Refactor API's handling of errors
 - [x] Move deleting of smartphone logic out of the API Controller.
 
