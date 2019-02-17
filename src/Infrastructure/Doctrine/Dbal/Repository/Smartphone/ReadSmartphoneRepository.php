@@ -23,9 +23,10 @@ class ReadSmartphoneRepository implements SmartphoneQuery
         $queryBuilder = $this->connection->createQueryBuilder();
 
         $queryBuilder
-            ->select('id', 'specification', 'release_date')
-            ->from('smartphones')
-            ->where('id = ?')
+            ->select('s.id', 'spec.company', 'spec.model', 'spec.details')
+            ->from('smartphones', 's')
+            ->leftJoin('s', 'specifications' ,'spec', 's.specification_id = spec.id')
+            ->where('s.id = ?')
             ->setParameter(0, (string) $id)
         ;
 
@@ -40,8 +41,9 @@ class ReadSmartphoneRepository implements SmartphoneQuery
 
         return new SmartphoneModel(
             $smartphoneData['id'],
-            json_decode($smartphoneData['specification'], true),
-            $smartphoneData['release_date']
+            $smartphoneData['company'],
+            $smartphoneData['model'],
+            json_decode($smartphoneData['details'], true)
         );
     }
 
@@ -53,8 +55,10 @@ class ReadSmartphoneRepository implements SmartphoneQuery
         $queryBuilder = $this->connection->createQueryBuilder();
 
         $queryBuilder
-            ->select('id', 'specification', 'release_date')
-            ->from('smartphones')
+            ->select('s.id', 'spec.company', 'spec.model', 'spec.details')
+            ->from('smartphones', 's')
+            ->leftJoin('s', 'specifications' ,'spec', 's.specification_id = spec.id')
+
         ;
 
         $smartphonesData = $this->connection->fetchAll(
@@ -69,8 +73,9 @@ class ReadSmartphoneRepository implements SmartphoneQuery
         return array_map(function ($smartphoneData) {
             return new SmartphoneModel(
                 $smartphoneData['id'],
-                json_decode($smartphoneData['specification'], true),
-                $smartphoneData['release_date']
+                $smartphoneData['company'],
+                $smartphoneData['model'],
+                json_decode($smartphoneData['details'], true)
             );
         }, $smartphonesData);
     }

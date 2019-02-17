@@ -1,0 +1,14 @@
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
+                          https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+    <entity name="App\Entity\Specification" table="specifications" repository-class="App\Infrastructure\Doctrine\Dbal\Repository\Specification\WriteSpecificationRepository">
+        <id name="id" type="specification_unique_id" column="id">
+            <generator strategy="NONE" />
+        </id>
+
+        <embedded name="company" class="App\Entity\Specification\Company" use-column-prefix="false" />
+        <embedded name="model" class="App\Entity\Specification\Model" use-column-prefix="false" />
+        <embedded name="details" class="App\Entity\Specification\Details" use-column-prefix="false" />
+    </entity>
+</doctrine-mapping>

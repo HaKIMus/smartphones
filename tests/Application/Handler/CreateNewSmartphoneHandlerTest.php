@@ -5,16 +5,15 @@ declare(strict_types=1);
 namespace Tests\Application\Handler;
 
 use App\Application\Command\CreateNewSmartphoneCommand;
+use App\Application\Dto\SpecificationAttachedToSmartphone;
 use App\Application\Handler\CreateNewSmartphoneHandler;
+use App\Entity\Specification\Company;
 use App\Infrastructure\Doctrine\Dbal\Repository\Smartphone\WriteSmartphoneRepository;
 use App\Entity\Smartphone\Id;
 use PHPUnit\Framework\TestCase;
 
 class CreateNewSmartphoneHandlerTest extends TestCase
 {
-    /**
-     * @coversNothing
-     */
     public function testHandle(): void
     {
         $smartphoneRepository = $this->createMock(WriteSmartphoneRepository::class);
@@ -24,17 +23,21 @@ class CreateNewSmartphoneHandlerTest extends TestCase
 
         $handler = new CreateNewSmartphoneHandler($smartphoneRepository);
 
+        $specificationDto = new SpecificationAttachedToSmartphone(
+            'alonesung',
+            'milky way 2',
+            'SoS',
+            [],
+            [],
+            '2016-02-04'
+        );
+
         $command = new CreateNewSmartphoneCommand(
             (string) Id::generate(),
-            [
-                'company' => 'ALONESUNG',
-                'model' => 'MILKY WAY 1',
-            ],
-            '03-02-2018'
+            $specificationDto
         );
 
         $handler->handle($command);
-
-        $this->assertTrue(true, 'This should already work');
+        $this->assertTrue(true, 'No need for assertion');
     }
 }

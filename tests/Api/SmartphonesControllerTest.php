@@ -51,10 +51,15 @@ class SmartphonesControllerTest extends WebTestCase
         $content = [
             'id' => $id,
             'specification' => [
-                'model' => '1',
-                'company' => 'myphone'
+                'company' => 'myphone',
+                'model' => '2',
+                'details' => [
+                    'os' => 'SoS',
+                    'screenSize' => [],
+                    'screenResolution' => [],
+                    'releasedDate' => '02-11-2016'
+                ]
             ],
-            'releaseDate' => '02-11-2016'
         ];
 
         $this->client->request('POST', '/api/v1/smartphones/', [], [], [], json_encode($content));
@@ -80,10 +85,15 @@ class SmartphonesControllerTest extends WebTestCase
 
         $content = [
             'specification' => [
+                'company' => 'myphone',
                 'model' => '2',
-                'company' => 'myphone'
+                'details' => [
+                    'os' => 'SoS',
+                    'screenSize' => [],
+                    'screenResolution' => [],
+                    'releasedDate' => '02-11-2016'
+                ]
             ],
-            'releaseDate' => '02-11-2016'
         ];
 
         $this->client->request('PUT', '/api/v1/smartphones/' . $idOfResource, [], [], [], json_encode($content));
@@ -110,16 +120,12 @@ class SmartphonesControllerTest extends WebTestCase
         $idOfResource = $this->postTestResourceAndGetItsId();
 
         $this->client->request('DELETE', '/api/v1/smartphones/' . $idOfResource);
-
         $response = $this->client->getResponse();
 
-        $this->assertSame(Response::HTTP_OK, $response->getStatusCode());
+        $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
 
         $this->client->request('GET', '/api/v1/smartphones/' . $idOfResource);
-
         $newSmartphoneResponse = $this->client->getResponse();
-
-        $this->assertJson($newSmartphoneResponse->getContent());
 
         $this->assertEquals(Response::HTTP_NOT_FOUND, $newSmartphoneResponse->getStatusCode());
     }
@@ -131,10 +137,15 @@ class SmartphonesControllerTest extends WebTestCase
         $content = [
             'id' => $id,
             'specification' => [
+                'company' => 'myphone',
                 'model' => '1',
-                'company' => 'myphone'
+                'details' => [
+                    'os' => 'SoS',
+                    'screenSize' => [],
+                    'screenResolution' => [],
+                    'releasedDate' => '02-11-2016'
+                ]
             ],
-            'releaseDate' => '02-11-2016'
         ];
 
         $this->client->request('POST', '/api/v1/smartphones/', [], [], [], json_encode($content));

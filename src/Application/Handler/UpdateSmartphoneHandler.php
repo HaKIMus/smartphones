@@ -8,6 +8,7 @@ use App\Application\Command\UpdateSmartphoneCommand;
 use App\Entity\Smartphone;
 use App\Entity\Smartphone\Id;
 use App\Entity\Smartphones;
+use App\Entity\Specification;
 
 final class UpdateSmartphoneHandler
 {
@@ -22,14 +23,19 @@ final class UpdateSmartphoneHandler
     {
         $smartphone = $this->smartphones->findById(Id::fromString($command->getId()));
 
-        $updatedSmartphone = $smartphone->updateSpecification(
-            Smartphone\Specification::chooseOneFromList(
-                $command->getSpecification()['company'],
-                $command->getSpecification()['model']
-            ),
-            Smartphone\ReleaseDate::fromImmutableDateTime(new \DateTimeImmutable($command->getReleaseDate()))
+        $specificationCommand = $command->getSpecification();
+
+        $company = Specification\Company::fromList($specificationCommand->getCompany());
+        $model = Specification\Model::fromString($specificationCommand->getModel());
+        $details = Specification\Details::withDetails(
+            $specificationCommand->getOs(),
+            $specificationCommand->getScreenSize(),
+            $specificationCommand->getScreenResolution(),
+            new \DateTimeImmutable($specificationCommand->getReleasedDate())
         );
 
-        $this->smartphones->update($updatedSmartphone);
+        $smartphone->updateSpecification($company, $model, $details);
+
+        $this->smartphones->update($smartphone);
     }
 }
