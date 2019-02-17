@@ -5,12 +5,11 @@ declare(strict_types=1);
 namespace Tests\Application\Handler;
 
 use App\Application\Command\RemoveSmartphoneCommand;
-use App\Application\Handler\CreateNewSmartphoneHandler;
 use App\Application\Handler\RemoveSmartphoneHandler;
+use App\Entity\Specification;
 use App\Infrastructure\Doctrine\Dbal\Repository\Smartphone\WriteSmartphoneRepository;
 use App\Entity\Smartphone;
 use App\Entity\Smartphone\Id;
-use App\Entity\Smartphone\Specification;
 use PHPUnit\Framework\TestCase;
 
 class RemoveSmartphoneHandlerTest extends TestCase
@@ -20,12 +19,21 @@ class RemoveSmartphoneHandlerTest extends TestCase
         /** @var WriteSmartphoneRepository $smartphoneRepository */
         $smartphoneRepository = $this->createMock(WriteSmartphoneRepository::class);
 
-        $smartphoneMock = Smartphone::withSpecification(
-            Id::generate(),
-            Specification::chooseOneFromList('alonesung', 'milky way 1'),
-            Smartphone\ReleaseDate::fromImmutableDateTime(
+        $specification = new Specification(
+            Specification\Id::generate(),
+            Specification\Company::fromList(Specification\Company::COMPANY_ALONESONG),
+            Specification\Model::fromString('Test'),
+            Specification\Details::withDetails(
+                'SoS',
+                [],
+                [],
                 new \DateTimeImmutable('now')
             )
+        );
+
+        $smartphoneMock = Smartphone::withSpecification(
+            Id::generate(),
+            $specification
         );
 
         $smartphoneRepository->expects($this->any())
@@ -41,6 +49,6 @@ class RemoveSmartphoneHandlerTest extends TestCase
 
         $handler->handle($command);
 
-        $this->assertTrue(true); // I won't to disable "no assertion alert" option.
+        $this->assertTrue(true, 'No need for assertion');
     }
 }

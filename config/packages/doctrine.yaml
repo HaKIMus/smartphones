@@ -9,7 +9,9 @@ doctrine:
     dbal:
         # configure these for your database server
         types:
-            smartphone_id: App\Types\SmartphoneIdType
+            smartphone_unique_id: App\Infrastructure\Doctrine\Type\SmartphoneUniqueId
+            specification_unique_id: App\Infrastructure\Doctrine\Type\SpecificationUniqueId
+
         driver: 'pdo_mysql'
         server_version: '5.7'
         charset: utf8mb4
@@ -23,15 +25,9 @@ doctrine:
         naming_strategy: doctrine.orm.naming_strategy.underscore
         auto_mapping: true
         mappings:
-            Model:
+            App\Entity:
                 is_bundle: false
-                type: annotation
-                dir: '%kernel.project_dir%/src/Entity'
+                type: xml
+                dir: '%kernel.project_dir%/src/orm/mapping/xml'
                 prefix: 'App\Entity'
-                alias: App\Entity
-            Infrastructure:
-                is_bundle: false
-                type: annotation
-                dir: '%kernel.project_dir%/src/Infrastructure'
-                prefix: 'App\Infrastructure'
-                alias: App\Infrastructure
+                alias: Entity

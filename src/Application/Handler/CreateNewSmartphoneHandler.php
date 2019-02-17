@@ -7,6 +7,7 @@ namespace App\Application\Handler;
 use App\Application\Command\CreateNewSmartphoneCommand;
 use App\Entity\Smartphone;
 use App\Entity\Smartphones;
+use App\Entity\Specification;
 
 final class CreateNewSmartphoneHandler
 {
@@ -19,14 +20,23 @@ final class CreateNewSmartphoneHandler
 
     public function handle(CreateNewSmartphoneCommand $command): void
     {
+        $specificationCommand = $command->getSpecification();
+
+        $specification = new Specification(
+            Specification\Id::generate(),
+            Specification\Company::fromList($specificationCommand->getCompany()),
+            Specification\Model::fromString($specificationCommand->getModel()),
+            Specification\Details::withDetails(
+                $specificationCommand->getOs(),
+                $specificationCommand->getScreenSize(),
+                $specificationCommand->getScreenResolution(),
+                new \DateTimeImmutable($specificationCommand->getReleasedDate())
+            )
+        );
+
         $smartphone = Smartphone::withSpecification(
             Smartphone\Id::fromString($command->getId()),
-            Smartphone\Specification::chooseOneFromList(
-                $command->getSpecification()['company'],
-                $command->getSpecification()['model']
-            ),
-            Smartphone\ReleaseDate::fromImmutableDateTime(
-                new \DateTimeImmutable($command->getReleaseDate()))
+            $specification
         );
 
         $this->smartphones->add($smartphone);

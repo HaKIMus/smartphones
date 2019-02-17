@@ -6,8 +6,7 @@ namespace App\DataFixtures;
 
 use App\Entity\Smartphone;
 use App\Entity\Smartphone\Id;
-use App\Entity\Smartphone\Specification;
-use App\Entity\Smartphone\ReleaseDate;
+use App\Entity\Specification;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
 
@@ -18,12 +17,11 @@ class SmarpthoneFixture extends Fixture
         for ($i = 0; $i < 20; $i++) {
             $smartphone = Smartphone::withSpecification(
                 Id::generate(),
-                Specification::chooseOneFromList(
-                    'alonesung',
-                    'milky way 1'
-                ),
-                ReleaseDate::fromImmutableDateTime(
-                    new \DateTimeImmutable('now')
+                new Specification(
+                    Specification\Id::generate(),
+                    Specification\Company::fromList('alonesung'),
+                    Specification\Model::fromString('Milky Way 2'),
+                    Specification\Details::withDetails('SoS', [], [], new \DateTimeImmutable('now'))
                 )
             );
 

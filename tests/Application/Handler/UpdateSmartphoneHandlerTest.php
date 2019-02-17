@@ -4,15 +4,13 @@ declare(strict_types=1);
 
 namespace Tests\Application\Handler;
 
-use App\Application\Command\RemoveSmartphoneCommand;
 use App\Application\Command\UpdateSmartphoneCommand;
-use App\Application\Handler\CreateNewSmartphoneHandler;
-use App\Application\Handler\RemoveSmartphoneHandler;
+use App\Application\Dto\SpecificationAttachedToSmartphone;
 use App\Application\Handler\UpdateSmartphoneHandler;
+use App\Entity\Specification;
 use App\Infrastructure\Doctrine\Dbal\Repository\Smartphone\WriteSmartphoneRepository;
 use App\Entity\Smartphone;
 use App\Entity\Smartphone\Id;
-use App\Entity\Smartphone\Specification;
 use PHPUnit\Framework\TestCase;
 
 class UpdateSmartphoneHandlerTest extends TestCase
@@ -21,12 +19,21 @@ class UpdateSmartphoneHandlerTest extends TestCase
     {
         $smartphoneRepository = $this->createMock(WriteSmartphoneRepository::class);
 
-        $smartphoneMock = Smartphone::withSpecification(
-            Id::generate(),
-            Specification::chooseOneFromList('alonesung', 'milky way 1'),
-            Smartphone\ReleaseDate::fromImmutableDateTime(
+        $specification = new Specification(
+            Specification\Id::generate(),
+            Specification\Company::fromList(Specification\Company::COMPANY_ALONESONG),
+            Specification\Model::fromString('Test'),
+            Specification\Details::withDetails(
+                'SoS',
+                [],
+                [],
                 new \DateTimeImmutable('now')
             )
+        );
+
+        $smartphoneMock = Smartphone::withSpecification(
+            Id::generate(),
+            $specification
         );
 
         $smartphoneRepository->expects($this->any())
@@ -36,19 +43,25 @@ class UpdateSmartphoneHandlerTest extends TestCase
         $smartphoneRepository->expects($this->any())
             ->method('update');
 
+
+        $specificationDto = new SpecificationAttachedToSmartphone(
+            Specification\Company::COMPANY_MYPHONE,
+            'Despacito',
+            'Saj O\' Es',
+            [],
+            [],
+            '2015-03-12'
+        );
+
         $command = new UpdateSmartphoneCommand(
             (string) Id::generate(),
-            [
-                'company' => 'alonesung',
-                'model' => 'milky way 1',
-            ],
-            '31-07-2016'
+            $specificationDto
         );
 
         $handler = new UpdateSmartphoneHandler($smartphoneRepository);
 
         $handler->handle($command);
 
-        $this->assertTrue(true); // I won't to disable "no assertion alert" option.
+        $this->assertTrue(true, 'No need for assertion');
     }
 }
