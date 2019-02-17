@@ -4,24 +4,26 @@ declare(strict_types=1);
 
 namespace Tests\Model;
 
+use App\Entity\Exception\Smartphone\ReleasedTooLateException;
 use App\Entity\Smartphone;
-use App\Entity\Smartphone\ReleaseDate;
 use App\Entity\Smartphone\Id;
-use App\Entity\Smartphone\Specification;
+use App\Entity\Specification;
 use PHPUnit\Framework\TestCase;
 
 class SmartphoneTest extends TestCase
 {
-    /**
-     * @expectedException App\Entity\Exception\Smartphone\ReleasedTooLateException
-     */
     public function testSmartphoneCantBeProducedBefore2012(): void
     {
+        $this->expectException(ReleasedTooLateException::class);
+
         Smartphone::withSpecification(
             Id::generate(),
-            Specification::chooseOneFromList('ALONESUNG', 'MILKY WAY 1'),
-
-            ReleaseDate::fromImmutableDateTime(\DateTimeImmutable::createFromFormat('d-m-Y', '16-06-2011'))
+            new Specification(
+                Specification\Id::generate(),
+                Specification\Company::fromList(Specification\Company::COMPANY_ALONESONG),
+                Specification\Model::fromString('Milky Way 2'),
+                Specification\Details::withDetails('SoS', [], [], new \DateTimeImmutable('01-01-2011'))
+            )
         );
     }
 }

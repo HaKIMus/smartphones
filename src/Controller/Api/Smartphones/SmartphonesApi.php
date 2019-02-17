@@ -7,6 +7,7 @@ namespace App\Controller\Api\Smartphones;
 use App\Application\Command\CreateNewSmartphoneCommand;
 use App\Application\Command\RemoveSmartphoneCommand;
 use App\Application\Command\UpdateSmartphoneCommand;
+use App\Application\Dto\SpecificationAttachedToSmartphone;
 use App\Application\Handler\CreateNewSmartphoneHandler;
 use App\Application\Handler\RemoveSmartphoneHandler;
 use App\Application\Handler\UpdateSmartphoneHandler;
@@ -89,9 +90,21 @@ final class SmartphonesApi extends ApiController
                 return $this->getJsonResponseWithMessage('No content passed', Response::HTTP_BAD_REQUEST);
             }
 
-            $this->checkForRequiredParametersInContent(['id', 'specification', 'releaseDate'], $content);
+            $this->checkForRequiredParametersForPostMethod($content);
 
-            $command = new CreateNewSmartphoneCommand($content['id'], $content['specification'], $content['releaseDate']);
+            $specification = $content['specification'];
+            $details = $content['specification']['details'];
+
+            $specificationDto = new SpecificationAttachedToSmartphone(
+                $specification['company'],
+                $specification['model'],
+                $details['os'],
+                $details['screenSize'],
+                $details['screenResolution'],
+                $details['releasedDate']
+            );
+
+            $command = new CreateNewSmartphoneCommand($content['id'], $specificationDto);
             $this->commandBus->handle($command);
 
             return $this->getJsonResponseWithMessage('Smartphone created', Response::HTTP_OK);
@@ -112,9 +125,21 @@ final class SmartphonesApi extends ApiController
                 return $this->getJsonResponseWithMessage('No content passed', Response::HTTP_BAD_REQUEST);
             }
 
-            $this->checkForRequiredParametersInContent(['specification', 'releaseDate'], $content);
+            $this->checkForRequiredParametersForPutMethod($content);
 
-            $command = new UpdateSmartphoneCommand($id,  $content['specification'], $content['releaseDate']);
+            $specification = $content['specification'];
+            $details = $content['specification']['details'];
+
+            $specificationDto = new SpecificationAttachedToSmartphone(
+                $specification['company'],
+                $specification['model'],
+                $details['os'],
+                $details['screenSize'],
+                $details['screenResolution'],
+                $details['releasedDate']
+            );
+
+            $command = new UpdateSmartphoneCommand($id, $specificationDto);
             $this->commandBus->handle($command);
 
             return $this->getJsonResponseWithMessage('Smartphone resource updated', Response::HTTP_OK);
@@ -132,5 +157,40 @@ final class SmartphonesApi extends ApiController
 
             return $this->getJsonResponseWithMessage('Resource deleted', Response::HTTP_OK);
         });
+    }
+
+    private function checkForRequiredParametersForPutMethod(array $content): void
+    {
+        $this->checkForRequiredParametersInContent([
+            'company',
+            'model',
+        ], $content['specification']);
+
+        $this->checkForRequiredParametersInContent([
+            'os',
+            'screenSize',
+            'screenResolution',
+            'releasedDate',
+        ], $content['specification']['details']);
+    }
+
+    private function checkForRequiredParametersForPostMethod(array $content): void
+    {
+        $this->checkForRequiredParametersInContent([
+            'id',
+            'specification',
+        ], $content);
+
+        $this->checkForRequiredParametersInContent([
+            'company',
+            'model',
+        ], $content['specification']);
+
+        $this->checkForRequiredParametersInContent([
+            'os',
+            'screenSize',
+            'screenResolution',
+            'releasedDate',
+        ], $content['specification']['details']);
     }
 }

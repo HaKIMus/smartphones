@@ -5,92 +5,46 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Entity\Exception\Smartphone\ReleasedTooLateException;
-use App\Entity\Smartphone\ReleaseDate;
 use App\Entity\Smartphone\Id;
-use App\Entity\Smartphone\Specification;
-use Doctrine\ORM\Mapping as ORM;
+use App\Entity\Specification\Company;
+use App\Entity\Specification\Details;
+use App\Entity\Specification\Model;
 
-/**
- * @ORM\Table(name="smartphones")
- * @ORM\Entity(repositoryClass="App\Infrastructure\Doctrine\Dbal\Repository\Smartphone\WriteSmartphoneRepository")
- */
 final class Smartphone implements \JsonSerializable
 {
-    const MINIMUM_RELEASE_DATE = 2012;
+    private const MINIMAL_ACCEPTED_RELEASED_DATE = '01/01/2012';
 
-    /**
-     * @var Id
-     *
-     * @ORM\Id
-     * @ORM\Column(type="smartphone_id", unique=true)
-     */
     private $id;
 
-    /**
-     * @var Specification
-     *
-     * @ORM\Column(type="json")
-     */
     private $specification;
-
-    /**
-     * @var ReleaseDate
-     *
-     * @ORM\Column(type="string")
-     */
-    private $releaseDate;
 
     public static function withSpecification(
         Id $id,
-        Specification $specification,
-        ReleaseDate $releaseDate
+        Specification $specification
     ): self {
         return new self(
             $id,
-            $specification,
-            $releaseDate
+            $specification
         );
     }
 
     private function __construct(
         Id $id,
-        Specification $specification,
-        ReleaseDate $releaseDate
+        Specification $specification
     ) {
-        if (!self::isCompatibleWithAcceptedReleaseDate($releaseDate)) {
-            throw new ReleasedTooLateException(sprintf(
-                'Smartphone can not be released before %s',
-                self::MINIMUM_RELEASE_DATE
-            ));
+        if (!$this->isReleasedAfterMinimalAcceptedDate($specification->details()->releasedDate())) {
+            throw new ReleasedTooLateException();
         }
 
         $this->id = $id;
         $this->specification = $specification;
-        $this->releaseDate = $releaseDate;
     }
 
-    public function updateSpecification(
-        Specification $specification,
-        ReleaseDate $releaseDate
-    ): self {
-        $updatedSmartphone = new self(
-            $this->id,
-            $specification,
-            $releaseDate
-        );
-
-        return $updatedSmartphone;
-    }
-
-    private static function isCompatibleWithAcceptedReleaseDate(ReleaseDate $releaseDate): bool
+    public function updateSpecification(Company $company, Model $model, Details $details): void
     {
-        $releaseDate = (int) $releaseDate->releaseDate()->format('Y');
-
-        if ($releaseDate < self::MINIMUM_RELEASE_DATE) {
-            return false;
-        }
-
-        return true;
+        $this->specification->changeCompany($company);
+        $this->specification->changeModel($model);
+        $this->specification->changeDetails($details);
     }
 
     public function jsonSerialize(): array
@@ -98,7 +52,17 @@ final class Smartphone implements \JsonSerializable
         return [
             'id' => $this->id,
             'specification' => $this->specification,
-            'releaseDate' => $this->releaseDate
         ];
+    }
+
+    private function isReleasedAfterMinimalAcceptedDate(\DateTimeInterface $releasedDate): bool
+    {
+        $minimalReleasedDate = new \DateTime(self::MINIMAL_ACCEPTED_RELEASED_DATE);
+
+        if ($releasedDate >= $minimalReleasedDate) {
+            return true;
+        }
+
+        return false;
     }
 }

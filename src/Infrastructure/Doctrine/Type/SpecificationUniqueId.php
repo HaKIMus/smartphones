@@ -2,17 +2,17 @@
 
 declare(strict_types=1);
 
-namespace App\Types;
+namespace App\Infrastructure\Doctrine\Type;
 
-use App\Entity\Smartphone\Id;
+use App\Entity\Specification\Id;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Types\ConversionException;
 use Doctrine\DBAL\Types\Type;
 use Ramsey\Uuid\Uuid;
 
-final class SmartphoneIdType extends Type
+final class SpecificationUniqueId extends Type
 {
-    const NAME = 'smartphone_id';
+    public const NAME = 'specification_unique_id';
 
     public function getSQLDeclaration(array $fieldDeclaration, AbstractPlatform $platform): string
     {
@@ -25,7 +25,7 @@ final class SmartphoneIdType extends Type
             return null;
         }
 
-        if ($value instanceof Id) {
+        if ($value instanceof SmartphoneUniqueId) {
             return $value;
         }
 
@@ -45,7 +45,7 @@ final class SmartphoneIdType extends Type
         }
 
         if (
-            $value instanceof Id
+            $value instanceof SmartphoneUniqueId
             || (
                 (is_string($value) || method_exists($value, '__toString'))
                 && Uuid::isValid((string) $value)

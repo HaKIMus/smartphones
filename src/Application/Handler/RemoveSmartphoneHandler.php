@@ -7,6 +7,7 @@ namespace App\Application\Handler;
 use App\Application\Command\RemoveSmartphoneCommand;
 use App\Entity\Smartphone;
 use App\Entity\Smartphones;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 final class RemoveSmartphoneHandler
 {
