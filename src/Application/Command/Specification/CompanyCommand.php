@@ -12,4 +12,9 @@ final class CompanyCommand
     {
         $this->company = $company;
     }
+
+    public function getCompany(): string
+    {
+        return $this->company;
+    }
 }

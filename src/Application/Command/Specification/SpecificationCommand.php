@@ -8,7 +8,7 @@ final class SpecificationCommand
 {
     private $id;
 
-    private $command;
+    private $company;
 
     private $model;
 
@@ -16,12 +16,12 @@ final class SpecificationCommand
 
     public function __construct(
         IdCommand $id,
-        CompanyCommand $command,
+        CompanyCommand $company,
         ModelCommand $model,
         DetailsCommand $details
     ) {
         $this->id = $id;
-        $this->command = $command;
+        $this->company = $company;
         $this->model = $model;
         $this->details = $details;
     }
@@ -31,9 +31,9 @@ final class SpecificationCommand
         return $this->id;
     }
 
-    public function getCommand(): CompanyCommand
+    public function getCompany(): CompanyCommand
     {
-        return $this->command;
+        return $this->company;
     }
 
     public function getModel(): ModelCommand

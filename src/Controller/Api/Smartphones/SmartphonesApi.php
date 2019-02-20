@@ -6,11 +6,15 @@ namespace App\Controller\Api\Smartphones;
 
 use App\Application\Command\CreateNewSmartphoneCommand;
 use App\Application\Command\RemoveSmartphoneCommand;
+use App\Application\Command\Smartphone\IdCommand;
+use App\Application\Command\Smartphone\SmartphoneCommand;
+use App\Application\Command\Specification\CompanyCommand;
+use App\Application\Command\Specification\DetailsCommand;
+use App\Application\Command\Specification\IdCommand as SpecificationIdCommand;
+use App\Application\Command\Smartphone\IdCommand as SmartphoneIdCommand;
+use App\Application\Command\Specification\ModelCommand;
+use App\Application\Command\Specification\SpecificationCommand;
 use App\Application\Command\UpdateSmartphoneCommand;
-use App\Application\Dto\SpecificationAttachedToSmartphone;
-use App\Application\Handler\CreateNewSmartphoneHandler;
-use App\Application\Handler\RemoveSmartphoneHandler;
-use App\Application\Handler\UpdateSmartphoneHandler;
 use App\Application\Query\SmartphoneQuery;
 use App\Controller\Api\ApiController;
 use App\Controller\Api\Handlers\SmartphonesApiHandler;
@@ -95,16 +99,21 @@ final class SmartphonesApi extends ApiController
             $specification = $content['specification'];
             $details = $content['specification']['details'];
 
-            $specificationDto = new SpecificationAttachedToSmartphone(
-                $specification['company'],
-                $specification['model'],
-                $details['os'],
-                $details['screenSize'],
-                $details['screenResolution'],
-                $details['releasedDate']
+            $specificationCommand = new SpecificationCommand(
+                new SpecificationIdCommand((string) Id::generate()),
+                new CompanyCommand($specification['company']),
+                new ModelCommand($specification['model']),
+                new DetailsCommand(
+                    $details['os'],
+                    $details['screenSize'],
+                    $details['screenResolution'],
+                    $details['releasedDate']
+                )
             );
 
-            $command = new CreateNewSmartphoneCommand($content['id'], $specificationDto);
+            $smartphoneCommand = new SmartphoneCommand(new IdCommand($content['id']), $specificationCommand);
+
+            $command = new CreateNewSmartphoneCommand($smartphoneCommand, $specificationCommand);
             $this->commandBus->handle($command);
 
             return $this->getJsonResponseWithMessage('Smartphone created', Response::HTTP_OK);
@@ -130,16 +139,21 @@ final class SmartphonesApi extends ApiController
             $specification = $content['specification'];
             $details = $content['specification']['details'];
 
-            $specificationDto = new SpecificationAttachedToSmartphone(
-                $specification['company'],
-                $specification['model'],
-                $details['os'],
-                $details['screenSize'],
-                $details['screenResolution'],
-                $details['releasedDate']
+            $specificationCommand = new SpecificationCommand(
+                new SpecificationIdCommand((string) Id::generate()),
+                new CompanyCommand($specification['company']),
+                new ModelCommand($specification['model']),
+                new DetailsCommand(
+                    $details['os'],
+                    $details['screenSize'],
+                    $details['screenResolution'],
+                    $details['releasedDate']
+                )
             );
 
-            $command = new UpdateSmartphoneCommand($id, $specificationDto);
+            $smartphoneCommand = new SmartphoneCommand(new IdCommand($id), $specificationCommand);
+
+            $command = new UpdateSmartphoneCommand($smartphoneCommand, $specificationCommand);
             $this->commandBus->handle($command);
 
             return $this->getJsonResponseWithMessage('Smartphone resource updated', Response::HTTP_OK);
@@ -152,7 +166,7 @@ final class SmartphonesApi extends ApiController
     public function deleteSmartphone(string $id, Request $request): Response
     {
         return $this->apiExceptionsHandler->writeExceptionsHandler(function () use ($id, $request) {
-            $command = new RemoveSmartphoneCommand($id);
+            $command = new RemoveSmartphoneCommand(new IdCommand($id));
             $this->commandBus->handle($command);
 
             return $this->getJsonResponseWithMessage('Resource deleted', Response::HTTP_OK);

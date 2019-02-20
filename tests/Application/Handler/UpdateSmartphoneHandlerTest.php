@@ -4,13 +4,19 @@ declare(strict_types=1);
 
 namespace Tests\Application\Handler;
 
+use App\Application\Command\Smartphone\IdCommand as SmartphoneIdCommand;
+use App\Application\Command\Smartphone\SmartphoneCommand;
+use App\Application\Command\Specification\CompanyCommand;
+use App\Application\Command\Specification\DetailsCommand;
+use App\Application\Command\Specification\IdCommand as SpecificationIdCommand;
+use App\Application\Command\Specification\ModelCommand;
+use App\Application\Command\Specification\SpecificationCommand;
 use App\Application\Command\UpdateSmartphoneCommand;
-use App\Application\Dto\SpecificationAttachedToSmartphone;
 use App\Application\Handler\UpdateSmartphoneHandler;
-use App\Entity\Specification;
-use App\Infrastructure\Doctrine\Dbal\Repository\Smartphone\WriteSmartphoneRepository;
 use App\Entity\Smartphone;
 use App\Entity\Smartphone\Id;
+use App\Entity\Specification;
+use App\Infrastructure\Doctrine\Dbal\Repository\Smartphone\WriteSmartphoneRepository;
 use Doctrine\ORM\EntityManager;
 use PHPUnit\Framework\TestCase;
 
@@ -46,18 +52,21 @@ class UpdateSmartphoneHandlerTest extends TestCase
             ->method('update');
 
 
-        $specificationDto = new SpecificationAttachedToSmartphone(
-            Specification\Company::COMPANY_MYPHONE,
-            'Despacito',
-            'Saj O\' Es',
-            [],
-            [],
-            '2015-03-12'
+        $specificationCommand = new SpecificationCommand(
+            new SpecificationIdCommand((string) Id::generate()),
+            new CompanyCommand('alonesung'),
+            new ModelCommand('milky way 2'),
+            new DetailsCommand('SoS', [], [],'2016-02-04')
+        );
+
+        $smartphoneCommand = new SmartphoneCommand(
+            new SmartphoneIdCommand((string) Id::generate()),
+            $specificationCommand
         );
 
         $command = new UpdateSmartphoneCommand(
-            (string) Id::generate(),
-            $specificationDto
+            $smartphoneCommand,
+            $specificationCommand
         );
 
         $handler = new UpdateSmartphoneHandler($smartphoneRepository, $entityManager);

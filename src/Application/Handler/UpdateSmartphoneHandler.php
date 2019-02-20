@@ -25,17 +25,23 @@ final class UpdateSmartphoneHandler
 
     public function handle(UpdateSmartphoneCommand $command): void
     {
-        $smartphone = $this->smartphones->findById(Id::fromString($command->getId()));
-
         $specificationCommand = $command->getSpecification();
 
-        $company = Specification\Company::fromList($specificationCommand->getCompany());
-        $model = Specification\Model::fromString($specificationCommand->getModel());
+        $smartphoneId = $command->getSmartphone()->getId()->getId();
+
+        $company = $specificationCommand->getCompany()->getCompany();
+        $model = $specificationCommand->getModel()->getModel();
+        $details = $specificationCommand->getDetails();
+
+        $smartphone = $this->smartphones->findById(Id::fromString($smartphoneId));
+
+        $company = Specification\Company::fromList($company);
+        $model = Specification\Model::fromString($model);
         $details = Specification\Details::withDetails(
-            $specificationCommand->getOs(),
-            $specificationCommand->getScreenSize(),
-            $specificationCommand->getScreenResolution(),
-            new \DateTimeImmutable($specificationCommand->getReleasedDate())
+            $details->getOs(),
+            $details->getScreenSize(),
+            $details->getScreenResolution(),
+            new \DateTimeImmutable($details->getReleasedDate())
         );
 
         $specification = $smartphone->specification();

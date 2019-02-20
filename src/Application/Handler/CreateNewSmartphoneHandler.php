@@ -22,20 +22,26 @@ final class CreateNewSmartphoneHandler
     {
         $specificationCommand = $command->getSpecification();
 
+        $smartphoneId = $command->getSmartphone()->getId()->getId();
+
+        $company = $specificationCommand->getCompany()->getCompany();
+        $model = $specificationCommand->getModel()->getModel();
+        $details = $specificationCommand->getDetails();
+
         $specification = new Specification(
             Specification\Id::generate(),
-            Specification\Company::fromList($specificationCommand->getCompany()),
-            Specification\Model::fromString($specificationCommand->getModel()),
+            Specification\Company::fromList($company),
+            Specification\Model::fromString($model),
             Specification\Details::withDetails(
-                $specificationCommand->getOs(),
-                $specificationCommand->getScreenSize(),
-                $specificationCommand->getScreenResolution(),
-                new \DateTimeImmutable($specificationCommand->getReleasedDate())
+                $details->getOs(),
+                $details->getScreenSize(),
+                $details->getScreenResolution(),
+                new \DateTimeImmutable($details->getReleasedDate())
             )
         );
 
         $smartphone = Smartphone::withSpecification(
-            Smartphone\Id::fromString($command->getId()),
+            Smartphone\Id::fromString($smartphoneId),
             $specification
         );
 

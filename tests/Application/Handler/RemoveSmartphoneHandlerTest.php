@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Application\Handler;
 
 use App\Application\Command\RemoveSmartphoneCommand;
+use App\Application\Command\Smartphone\IdCommand;
 use App\Application\Handler\RemoveSmartphoneHandler;
 use App\Entity\Specification;
 use App\Infrastructure\Doctrine\Dbal\Repository\Smartphone\WriteSmartphoneRepository;
@@ -45,7 +46,7 @@ class RemoveSmartphoneHandlerTest extends TestCase
 
         $handler = new RemoveSmartphoneHandler($smartphoneRepository);
 
-        $command = new RemoveSmartphoneCommand((string) Id::generate());
+        $command = new RemoveSmartphoneCommand(new IdCommand((string) Id::generate()));
 
         $handler->handle($command);
 

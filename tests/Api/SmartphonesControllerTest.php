@@ -63,16 +63,15 @@ class SmartphonesControllerTest extends WebTestCase
         ];
 
         $this->client->request('POST', '/api/v1/smartphones/', [], [], [], json_encode($content));
-        
         $response = $this->client->getResponse();
 
-        $this->assertSame(Response::HTTP_OK, $response->getStatusCode());
+        $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
 
         $this->client->request('GET', '/api/v1/smartphones/' . $id);
-
         $newSmartphoneResponse = $this->client->getResponse();
 
         $this->assertJson($newSmartphoneResponse->getContent());
+        $this->assertEquals(Response::HTTP_OK, $newSmartphoneResponse->getStatusCode());
     }
 
     public function testPUTMethod(): void
