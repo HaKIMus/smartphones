@@ -40,11 +40,9 @@ final class Smartphone implements \JsonSerializable
         $this->specification = $specification;
     }
 
-    public function updateSpecification(Company $company, Model $model, Details $details): void
+    public function specification(): Specification
     {
-        $this->specification->changeCompany($company);
-        $this->specification->changeModel($model);
-        $this->specification->changeDetails($details);
+        return $this->specification;
     }
 
     public function jsonSerialize(): array

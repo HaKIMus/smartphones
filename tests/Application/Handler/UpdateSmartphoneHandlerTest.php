@@ -11,12 +11,14 @@ use App\Entity\Specification;
 use App\Infrastructure\Doctrine\Dbal\Repository\Smartphone\WriteSmartphoneRepository;
 use App\Entity\Smartphone;
 use App\Entity\Smartphone\Id;
+use Doctrine\ORM\EntityManager;
 use PHPUnit\Framework\TestCase;
 
 class UpdateSmartphoneHandlerTest extends TestCase
 {
     public function testHandle(): void
     {
+        $entityManager = $this->createMock(EntityManager::class);
         $smartphoneRepository = $this->createMock(WriteSmartphoneRepository::class);
 
         $specification = new Specification(
@@ -58,7 +60,7 @@ class UpdateSmartphoneHandlerTest extends TestCase
             $specificationDto
         );
 
-        $handler = new UpdateSmartphoneHandler($smartphoneRepository);
+        $handler = new UpdateSmartphoneHandler($smartphoneRepository, $entityManager);
 
         $handler->handle($command);
 

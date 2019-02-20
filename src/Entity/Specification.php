@@ -9,7 +9,7 @@ use App\Entity\Specification\Details;
 use App\Entity\Specification\Id;
 use App\Entity\Specification\Model;
 
-class Specification
+/* final */class Specification
 {
     private $id;
 

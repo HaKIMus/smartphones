@@ -9,14 +9,18 @@ use App\Entity\Smartphone;
 use App\Entity\Smartphone\Id;
 use App\Entity\Smartphones;
 use App\Entity\Specification;
+use Doctrine\ORM\EntityManagerInterface;
 
 final class UpdateSmartphoneHandler
 {
     private $smartphones;
 
-    public function __construct(Smartphones $smartphones)
+    private $entityManager;
+
+    public function __construct(Smartphones $smartphones, EntityManagerInterface $entityManager)
     {
         $this->smartphones = $smartphones;
+        $this->entityManager = $entityManager;
     }
 
     public function handle(UpdateSmartphoneCommand $command): void
@@ -34,8 +38,12 @@ final class UpdateSmartphoneHandler
             new \DateTimeImmutable($specificationCommand->getReleasedDate())
         );
 
-        $smartphone->updateSpecification($company, $model, $details);
+        $specification = $smartphone->specification();
 
-        $this->smartphones->update($smartphone);
+        $specification->changeDetails($details);
+        $specification->changeModel($model);
+        $specification->changeCompany($company);
+
+        $this->entityManager->flush();
     }
 }
