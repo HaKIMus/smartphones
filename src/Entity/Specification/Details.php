@@ -4,8 +4,12 @@ declare(strict_types=1);
 
 namespace App\Entity\Specification;
 
+use App\Entity\Exception\Specification\ReleasedTooLateException;
+
 final class Details implements \JsonSerializable
 {
+    private const MINIMAL_ACCEPTED_RELEASED_DATE = '01/01/2012';
+
     private $details;
 
     private $os;
@@ -23,6 +27,10 @@ final class Details implements \JsonSerializable
 
     private function __construct(string $os, array $screenSize, array $screenResolution, \DateTimeImmutable $releasedDate)
     {
+        if ($this->isOlderThanAcceptedReleaseDate($releasedDate)) {
+            throw new ReleasedTooLateException();
+        }
+
         $this->os = $os;
         $this->screenSize = $screenSize;
         $this->screenResolution = $screenResolution;
@@ -64,5 +72,16 @@ final class Details implements \JsonSerializable
     public function jsonSerialize(): array
     {
         return $this->details;
+    }
+
+    private function isOlderThanAcceptedReleaseDate(\DateTimeInterface $releasedDate): bool
+    {
+        $minimalReleasedDate = new \DateTime(self::MINIMAL_ACCEPTED_RELEASED_DATE);
+
+        if ($releasedDate < $minimalReleasedDate) {
+            return true;
+        }
+
+        return false;
     }
 }
