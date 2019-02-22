@@ -2,28 +2,27 @@
 
 declare(strict_types=1);
 
-namespace App\Application\Command;
+namespace App\Application\Command\Smartphone;
 
-use App\Application\Command\Smartphone\SmartphoneCommand;
 use App\Application\Command\Specification\SpecificationCommand;
 
-final class UpdateSmartphoneCommand
+final class SmartphoneCommand
 {
-    private $smartphone;
+    private $id;
 
     private $specification;
 
     public function __construct(
-        SmartphoneCommand $smartphone,
+        IdCommand $id,
         SpecificationCommand $specification
     ) {
-        $this->smartphone = $smartphone;
+        $this->id = $id;
         $this->specification = $specification;
     }
 
-    public function getSmartphone(): SmartphoneCommand
+    public function getId(): IdCommand
     {
-        return $this->smartphone;
+        return $this->id;
     }
 
     public function getSpecification(): SpecificationCommand

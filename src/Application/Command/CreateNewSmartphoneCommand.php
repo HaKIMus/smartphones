@@ -4,28 +4,29 @@ declare(strict_types=1);
 
 namespace App\Application\Command;
 
-use App\Application\Dto\SpecificationAttachedToSmartphone;
+use App\Application\Command\Smartphone\SmartphoneCommand;
+use App\Application\Command\Specification\SpecificationCommand;
 
 final class CreateNewSmartphoneCommand
 {
-    private $id;
+    private $smartphone;
 
     private $specification;
 
     public function __construct(
-        string $id,
-        SpecificationAttachedToSmartphone $specification
+        SmartphoneCommand $smartphone,
+        SpecificationCommand $specification
     ) {
-        $this->id = $id;
+        $this->smartphone = $smartphone;
         $this->specification = $specification;
     }
 
-    public function getId(): string
+    public function getSmartphone(): SmartphoneCommand
     {
-        return $this->id;
+        return $this->smartphone;
     }
 
-    public function getSpecification(): SpecificationAttachedToSmartphone
+    public function getSpecification(): SpecificationCommand
     {
         return $this->specification;
     }

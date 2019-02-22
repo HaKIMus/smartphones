@@ -20,7 +20,7 @@ final class RemoveSmartphoneHandler
 
     public function handle(RemoveSmartphoneCommand $command): void
     {
-        $smartphone = $this->smartphones->findById(Smartphone\Id::fromString($command->getId()));
+        $smartphone = $this->smartphones->findById(Smartphone\Id::fromString($command->getSmartphoneId()->getId()));
 
         $this->smartphones->remove($smartphone);
     }

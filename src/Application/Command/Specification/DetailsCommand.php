@@ -2,14 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\Application\Dto;
+namespace App\Application\Command\Specification;
 
-final class SpecificationAttachedToSmartphone
+final class DetailsCommand
 {
-    private $company;
-
-    private $model;
-
     private $os;
 
     private $screenSize;
@@ -19,15 +15,11 @@ final class SpecificationAttachedToSmartphone
     private $releasedDate;
 
     public function __construct(
-        string $company,
-        string $model,
         string $os,
         array $screenSize,
         array $screenResolution,
         string $releasedDate
     ) {
-        $this->company = $company;
-        $this->model = $model;
         $this->os = $os;
         $this->screenSize = $screenSize;
         $this->screenResolution = $screenResolution;
@@ -37,16 +29,6 @@ final class SpecificationAttachedToSmartphone
     public function getOs(): string
     {
         return $this->os;
-    }
-
-    public function getCompany(): string
-    {
-        return $this->company;
-    }
-
-    public function getModel(): string
-    {
-        return $this->model;
     }
 
     public function getScreenSize(): array

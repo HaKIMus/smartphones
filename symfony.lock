@@ -80,6 +80,9 @@
     "doctrine/reflection": {
         "version": "v1.0.0"
     },
+    "facebook/webdriver": {
+        "version": "1.6.0"
+    },
     "friendsofsymfony/rest-bundle": {
         "version": "2.2",
         "recipe": {
@@ -236,6 +239,9 @@
     "symfony/orm-pack": {
         "version": "v1.0.5"
     },
+    "symfony/panther": {
+        "version": "v0.2.0"
+    },
     "symfony/phpunit-bridge": {
         "version": "4.1",
         "recipe": {
@@ -277,6 +283,9 @@
     },
     "symfony/serializer-pack": {
         "version": "v1.0.2"
+    },
+    "symfony/stopwatch": {
+        "version": "v4.2.3"
     },
     "symfony/templating": {
         "version": "v4.2.2"

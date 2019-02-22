@@ -4,17 +4,19 @@ declare(strict_types=1);
 
 namespace App\Application\Command;
 
+use App\Application\Command\Smartphone\IdCommand;
+
 final class RemoveSmartphoneCommand
 {
-    private $id;
+    private $smartphoneId;
 
-    public function __construct(string $id)
+    public function __construct(IdCommand $smartphoneId)
     {
-        $this->id = $id;
+        $this->smartphoneId = $smartphoneId;
     }
 
-    public function getId(): string
+    public function getSmartphoneId(): IdCommand
     {
-        return $this->id;
+        return $this->smartphoneId;
     }
 }
