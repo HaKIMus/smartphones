@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Doctrine\Dbal\Repository\Specification;
 
-use App\Entity\Specification;
-use App\Entity\Specification\Id;
-use App\Entity\Specifications;
+use App\Entity\Specification\ValueObject\Id;
+use App\Entity\Specification\Specifications;
+use App\Entity\Specification\Specification;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 

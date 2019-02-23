@@ -6,7 +6,7 @@ namespace App\Infrastructure\Doctrine\Dbal\Repository\Smartphone;
 
 use App\Application\Query\Model\SmartphoneModel;
 use App\Application\Query\SmartphoneQuery;
-use App\Entity\Smartphone\Id;
+use App\Entity\Smartphone\ValueObject\Id;
 use Doctrine\DBAL\Connection;
 
 class ReadSmartphoneRepository implements SmartphoneQuery

@@ -2,12 +2,12 @@
                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                   xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
                           https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
-    <entity name="App\Entity\Smartphone" table="smartphones" repository-class="App\Infrastructure\Doctrine\Dbal\Repository\Smartphone\WriteSmartphoneRepository">
+    <entity name="App\Entity\Smartphone\Smartphone" table="smartphones" repository-class="App\Infrastructure\Doctrine\Dbal\Repository\Smartphone\WriteSmartphoneRepository">
         <id name="id" type="smartphone_unique_id" column="id">
             <generator strategy="NONE" />
         </id>
 
-        <one-to-one field="specification" target-entity="App\Entity\Specification">
+        <one-to-one field="specification" target-entity="App\Entity\Specification\Specification">
             <cascade>
                 <cascade-persist />
                 <cascade-merge />

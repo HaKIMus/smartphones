@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace App\Entity;
+namespace App\Entity\Specification;
 
-use App\Entity\Specification\Company;
-use App\Entity\Specification\Details;
-use App\Entity\Specification\Id;
-use App\Entity\Specification\Model;
+use App\Entity\Specification\ValueObject\Company;
+use App\Entity\Specification\ValueObject\Details;
+use App\Entity\Specification\ValueObject\Id;
+use App\Entity\Specification\ValueObject\Model;
 
 /* final */class Specification
 {

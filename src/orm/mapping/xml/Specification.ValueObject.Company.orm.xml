@@ -2,7 +2,7 @@
                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                   xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
                           https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
-    <embeddable name="App\Entity\Specification\Details">
-        <field name="details" column="details" type="json" />
+    <embeddable name="App\Entity\Specification\ValueObject\Company">
+        <field name="company" column="company" />
     </embeddable>
 </doctrine-mapping>

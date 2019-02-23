@@ -5,10 +5,11 @@ declare(strict_types=1);
 namespace App\Application\Handler;
 
 use App\Application\Command\UpdateSmartphoneCommand;
-use App\Entity\Smartphone;
-use App\Entity\Smartphone\Id;
-use App\Entity\Smartphones;
-use App\Entity\Specification;
+use App\Entity\Smartphone\Smartphones;
+use App\Entity\Smartphone\ValueObject\Id;
+use App\Entity\Specification\ValueObject\Company;
+use App\Entity\Specification\ValueObject\Details;
+use App\Entity\Specification\ValueObject\Model;
 use Doctrine\ORM\EntityManagerInterface;
 
 final class UpdateSmartphoneHandler
@@ -35,9 +36,9 @@ final class UpdateSmartphoneHandler
 
         $smartphone = $this->smartphones->findById(Id::fromString($smartphoneId));
 
-        $company = Specification\Company::fromList($company);
-        $model = Specification\Model::fromString($model);
-        $details = Specification\Details::withDetails(
+        $company = Company::fromList($company);
+        $model = Model::fromString($model);
+        $details = Details::withDetails(
             $details->getOs(),
             $details->getScreenSize(),
             $details->getScreenResolution(),

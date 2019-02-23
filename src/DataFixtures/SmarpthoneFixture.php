@@ -4,9 +4,13 @@ declare(strict_types=1);
 
 namespace App\DataFixtures;
 
-use App\Entity\Smartphone;
-use App\Entity\Smartphone\Id;
-use App\Entity\Specification;
+use App\Entity\Smartphone\Smartphone;
+use App\Entity\Smartphone\ValueObject\Id;
+use App\Entity\Specification\ValueObject\Company;
+use App\Entity\Specification\ValueObject\Details;
+use App\Entity\Specification\ValueObject\Id as SpecificationId;
+use App\Entity\Specification\Specification;
+use App\Entity\Specification\ValueObject\Model;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
 
@@ -18,10 +22,10 @@ class SmarpthoneFixture extends Fixture
             $smartphone = Smartphone::withSpecification(
                 Id::generate(),
                 new Specification(
-                    Specification\Id::generate(),
-                    Specification\Company::fromList('alonesung'),
-                    Specification\Model::fromString('Milky Way 2'),
-                    Specification\Details::withDetails('SoS', [], [], new \DateTimeImmutable('now'))
+                    SpecificationId::generate(),
+                    Company::fromList('alonesung'),
+                    Model::fromString('Milky Way 2'),
+                    Details::withDetails('SoS', [], [], new \DateTimeImmutable('now'))
                 )
             );
 

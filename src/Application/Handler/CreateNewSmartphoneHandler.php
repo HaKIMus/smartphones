@@ -5,9 +5,14 @@ declare(strict_types=1);
 namespace App\Application\Handler;
 
 use App\Application\Command\CreateNewSmartphoneCommand;
-use App\Entity\Smartphone;
-use App\Entity\Smartphones;
-use App\Entity\Specification;
+use App\Entity\Smartphone\Smartphone;
+use App\Entity\Smartphone\Smartphones;
+use App\Entity\Specification\Specification;
+use App\Entity\Specification\ValueObject\Company;
+use App\Entity\Specification\ValueObject\Details;
+use App\Entity\Specification\ValueObject\Id as SpecificationId;
+use App\Entity\Smartphone\ValueObject\Id as SmartphoneId;
+use App\Entity\Specification\ValueObject\Model;
 
 final class CreateNewSmartphoneHandler
 {
@@ -29,10 +34,10 @@ final class CreateNewSmartphoneHandler
         $details = $specificationCommand->getDetails();
 
         $specification = new Specification(
-            Specification\Id::generate(),
-            Specification\Company::fromList($company),
-            Specification\Model::fromString($model),
-            Specification\Details::withDetails(
+            SpecificationId::generate(),
+            Company::fromList($company),
+            Model::fromString($model),
+            Details::withDetails(
                 $details->getOs(),
                 $details->getScreenSize(),
                 $details->getScreenResolution(),
@@ -41,7 +46,7 @@ final class CreateNewSmartphoneHandler
         );
 
         $smartphone = Smartphone::withSpecification(
-            Smartphone\Id::fromString($smartphoneId),
+            SmartphoneId::fromString($smartphoneId),
             $specification
         );
 

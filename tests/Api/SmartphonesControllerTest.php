@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Api;
 
-use App\Entity\Smartphone\Id;
+use App\Entity\Smartphone\ValueObject\Id;
 use Symfony\Bundle\FrameworkBundle\Client;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\JsonResponse;

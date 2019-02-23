@@ -7,10 +7,14 @@ namespace Tests\Application\Handler;
 use App\Application\Command\RemoveSmartphoneCommand;
 use App\Application\Command\Smartphone\IdCommand;
 use App\Application\Handler\RemoveSmartphoneHandler;
-use App\Entity\Specification;
+use App\Entity\Specification\Specification;
+use App\Entity\Specification\ValueObject\Company;
+use App\Entity\Specification\ValueObject\Details;
+use App\Entity\Specification\ValueObject\Model;
 use App\Infrastructure\Doctrine\Dbal\Repository\Smartphone\WriteSmartphoneRepository;
-use App\Entity\Smartphone;
-use App\Entity\Smartphone\Id;
+use App\Entity\Smartphone\Smartphone;
+use App\Entity\Smartphone\ValueObject\Id as SmartphoneId;
+use App\Entity\Specification\ValueObject\Id as SpecificationId;
 use PHPUnit\Framework\TestCase;
 
 class RemoveSmartphoneHandlerTest extends TestCase
@@ -21,10 +25,10 @@ class RemoveSmartphoneHandlerTest extends TestCase
         $smartphoneRepository = $this->createMock(WriteSmartphoneRepository::class);
 
         $specification = new Specification(
-            Specification\Id::generate(),
-            Specification\Company::fromList(Specification\Company::COMPANY_ALONESONG),
-            Specification\Model::fromString('Test'),
-            Specification\Details::withDetails(
+            SpecificationId::generate(),
+            Company::fromList(Company::COMPANY_ALONESONG),
+            Model::fromString('Test'),
+            Details::withDetails(
                 'SoS',
                 [],
                 [],
@@ -33,7 +37,7 @@ class RemoveSmartphoneHandlerTest extends TestCase
         );
 
         $smartphoneMock = Smartphone::withSpecification(
-            Id::generate(),
+            SmartphoneId::generate(),
             $specification
         );
 
@@ -46,7 +50,7 @@ class RemoveSmartphoneHandlerTest extends TestCase
 
         $handler = new RemoveSmartphoneHandler($smartphoneRepository);
 
-        $command = new RemoveSmartphoneCommand(new IdCommand((string) Id::generate()));
+        $command = new RemoveSmartphoneCommand(new IdCommand((string) SmartphoneId::generate()));
 
         $handler->handle($command);
 

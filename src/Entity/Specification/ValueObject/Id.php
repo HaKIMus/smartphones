@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Entity\Smartphone;
+namespace App\Entity\Specification\ValueObject;
 
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;

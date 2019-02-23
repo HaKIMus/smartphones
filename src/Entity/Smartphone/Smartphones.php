@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Entity;
+namespace App\Entity\Smartphone;
 
-use App\Entity\Smartphone\Id;
+use App\Entity\Smartphone\ValueObject\Id;
 
 interface Smartphones
 {
