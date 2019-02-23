@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Doctrine\Dbal\Repository\Smartphone;
 
-use App\Entity\Smartphone;
-use App\Entity\Smartphone\Id;
-use App\Entity\Smartphones;
+use App\Entity\Smartphone\Smartphone;
+use App\Entity\Smartphone\ValueObject\Id;
+use App\Entity\Smartphone\Smartphones;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 

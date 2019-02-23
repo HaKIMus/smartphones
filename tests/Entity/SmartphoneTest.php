@@ -4,10 +4,14 @@ declare(strict_types=1);
 
 namespace Tests\Model;
 
-use App\Entity\Exception\Smartphone\ReleasedTooLateException;
-use App\Entity\Smartphone;
-use App\Entity\Smartphone\Id;
-use App\Entity\Specification;
+use App\Entity\Exception\Specification\ReleasedTooLateException;
+use App\Entity\Smartphone\Smartphone;
+use App\Entity\Smartphone\ValueObject\Id;
+use App\Entity\Specification\Specification;
+use App\Entity\Specification\ValueObject\Company;
+use App\Entity\Specification\ValueObject\Details;
+use App\Entity\Specification\ValueObject\Id as SpecificationId;
+use App\Entity\Specification\ValueObject\Model;
 use PHPUnit\Framework\TestCase;
 
 class SmartphoneTest extends TestCase
@@ -19,10 +23,10 @@ class SmartphoneTest extends TestCase
         Smartphone::withSpecification(
             Id::generate(),
             new Specification(
-                Specification\Id::generate(),
-                Specification\Company::fromList(Specification\Company::COMPANY_ALONESONG),
-                Specification\Model::fromString('Milky Way 2'),
-                Specification\Details::withDetails('SoS', [], [], new \DateTimeImmutable('01-01-2011'))
+                SpecificationId::generate(),
+                Company::fromList(Company::COMPANY_ALONESONG),
+                Model::fromString('Milky Way 2'),
+                Details::withDetails('SoS', [], [], new \DateTimeImmutable('01-01-2011'))
             )
         );
     }

@@ -11,15 +11,15 @@ use App\Application\Command\Smartphone\SmartphoneCommand;
 use App\Application\Command\Specification\CompanyCommand;
 use App\Application\Command\Specification\DetailsCommand;
 use App\Application\Command\Specification\IdCommand as SpecificationIdCommand;
-use App\Application\Command\Smartphone\IdCommand as SmartphoneIdCommand;
 use App\Application\Command\Specification\ModelCommand;
 use App\Application\Command\Specification\SpecificationCommand;
 use App\Application\Command\UpdateSmartphoneCommand;
 use App\Application\Query\SmartphoneQuery;
 use App\Controller\Api\ApiController;
 use App\Controller\Api\Handlers\SmartphonesApiHandler;
-use App\Entity\Smartphone\Id;
-use App\Entity\Smartphones;
+use App\Entity\Smartphone\Smartphones;
+use App\Entity\Smartphone\ValueObject\Id;
+use App\Entity\Specification\ValueObject\Id as SpecificationId;
 use League\Tactician\CommandBus;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -140,7 +140,7 @@ final class SmartphonesApi extends ApiController
             $details = $content['specification']['details'];
 
             $specificationCommand = new SpecificationCommand(
-                new SpecificationIdCommand((string) Id::generate()),
+                new SpecificationIdCommand((string) SpecificationId::generate()),
                 new CompanyCommand($specification['company']),
                 new ModelCommand($specification['model']),
                 new DetailsCommand(

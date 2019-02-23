@@ -5,9 +5,8 @@ declare(strict_types=1);
 namespace App\Application\Handler;
 
 use App\Application\Command\RemoveSmartphoneCommand;
-use App\Entity\Smartphone;
-use App\Entity\Smartphones;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use App\Entity\Smartphone\Smartphones;
+use App\Entity\Smartphone\ValueObject\Id;
 
 final class RemoveSmartphoneHandler
 {
@@ -20,7 +19,7 @@ final class RemoveSmartphoneHandler
 
     public function handle(RemoveSmartphoneCommand $command): void
     {
-        $smartphone = $this->smartphones->findById(Smartphone\Id::fromString($command->getSmartphoneId()->getId()));
+        $smartphone = $this->smartphones->findById(Id::fromString($command->getSmartphoneId()->getId()));
 
         $this->smartphones->remove($smartphone);
     }

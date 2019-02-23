@@ -13,9 +13,13 @@ use App\Application\Command\Specification\ModelCommand;
 use App\Application\Command\Specification\SpecificationCommand;
 use App\Application\Command\UpdateSmartphoneCommand;
 use App\Application\Handler\UpdateSmartphoneHandler;
-use App\Entity\Smartphone;
-use App\Entity\Smartphone\Id;
-use App\Entity\Specification;
+use App\Entity\Smartphone\Smartphone;
+use App\Entity\Smartphone\ValueObject\Id as SmartphoneId;
+use App\Entity\Specification\Specification;
+use App\Entity\Specification\ValueObject\Company;
+use App\Entity\Specification\ValueObject\Details;
+use App\Entity\Specification\ValueObject\Id as SpecificationId;
+use App\Entity\Specification\ValueObject\Model;
 use App\Infrastructure\Doctrine\Dbal\Repository\Smartphone\WriteSmartphoneRepository;
 use Doctrine\ORM\EntityManager;
 use PHPUnit\Framework\TestCase;
@@ -28,10 +32,10 @@ class UpdateSmartphoneHandlerTest extends TestCase
         $smartphoneRepository = $this->createMock(WriteSmartphoneRepository::class);
 
         $specification = new Specification(
-            Specification\Id::generate(),
-            Specification\Company::fromList(Specification\Company::COMPANY_ALONESONG),
-            Specification\Model::fromString('Test'),
-            Specification\Details::withDetails(
+            SpecificationId::generate(),
+            Company::fromList(Company::COMPANY_ALONESONG),
+            Model::fromString('Test'),
+            Details::withDetails(
                 'SoS',
                 [],
                 [],
@@ -40,7 +44,7 @@ class UpdateSmartphoneHandlerTest extends TestCase
         );
 
         $smartphoneMock = Smartphone::withSpecification(
-            Id::generate(),
+            SmartphoneId::generate(),
             $specification
         );
 
@@ -53,14 +57,14 @@ class UpdateSmartphoneHandlerTest extends TestCase
 
 
         $specificationCommand = new SpecificationCommand(
-            new SpecificationIdCommand((string) Id::generate()),
+            new SpecificationIdCommand((string) SpecificationId::generate()),
             new CompanyCommand('alonesung'),
             new ModelCommand('milky way 2'),
             new DetailsCommand('SoS', [], [],'2016-02-04')
         );
 
         $smartphoneCommand = new SmartphoneCommand(
-            new SmartphoneIdCommand((string) Id::generate()),
+            new SmartphoneIdCommand((string) SmartphoneId::generate()),
             $specificationCommand
         );
 
