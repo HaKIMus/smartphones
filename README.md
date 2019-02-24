@@ -22,9 +22,9 @@ To run tests execute following command:
 **TODO**
 
 - [x] Have a cup of coffee!
-- [] AggregateRoots need for business logic!
-- [] Value objects need for business logic!
-- [] Tests aren't coverage everything what is worth testing.
+- [ ] AggregateRoots need for business logic!
+- [ ] Value objects need for business logic!
+- [ ] Tests aren't coverage everything what is worth testing.
 
 **API**
 
