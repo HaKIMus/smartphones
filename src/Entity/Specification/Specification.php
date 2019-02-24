@@ -4,12 +4,14 @@ declare(strict_types=1);
 
 namespace App\Entity\Specification;
 
+use App\Entity\AggregateRoot;
 use App\Entity\Specification\ValueObject\Company;
 use App\Entity\Specification\ValueObject\Details;
 use App\Entity\Specification\ValueObject\Id;
 use App\Entity\Specification\ValueObject\Model;
+use Ramsey\Uuid\Uuid;
 
-/* final */class Specification
+/* final */class Specification implements AggregateRoot
 {
     private $id;
 
@@ -19,17 +21,26 @@ use App\Entity\Specification\ValueObject\Model;
 
     private $details;
 
+    private $aggregateId;
+
     public function __construct(Id $id, Company $company, Model $model, Details $details)
     {
         $this->id = $id;
         $this->company = $company;
         $this->model = $model;
         $this->details = $details;
+
+        $this->aggregateId = Uuid::uuid4();
     }
 
     public function id(): Id
     {
         return $this->id;
+    }
+
+    public function aggregateId(): string
+    {
+        return (string) $this->aggregateId;
     }
 
     public function changeCompany(Company $company): void
