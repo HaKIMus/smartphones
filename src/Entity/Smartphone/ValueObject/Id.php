@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace App\Entity\Smartphone\ValueObject;
 
+use App\Entity\Exception\InvalidArgumentException;
+use App\Entity\ValueObject;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
 
-final class Id
+final class Id extends ValueObject
 {
     private $id;
 
@@ -31,8 +33,15 @@ final class Id
         return $this->id;
     }
 
-    public function __toString()
+    public function __toString(): string
     {
         return (string) $this->id;
+    }
+
+    public function sameValueAs(ValueObject $valueObject): bool
+    {
+        $this->instanceOf(get_class($valueObject));
+
+        return $this->id === $valueObject->id;
     }
 }

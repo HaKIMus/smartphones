@@ -5,8 +5,9 @@ declare(strict_types=1);
 namespace App\Entity\Specification\ValueObject;
 
 use App\Entity\Exception\Specification\ReleasedTooLateException;
+use App\Entity\ValueObject;
 
-final class Details implements \JsonSerializable
+final class Details extends ValueObject implements \JsonSerializable
 {
     private const MINIMAL_ACCEPTED_RELEASED_DATE = '01/01/2012';
 
@@ -83,5 +84,16 @@ final class Details implements \JsonSerializable
         }
 
         return false;
+    }
+
+    public function sameValueAs(ValueObject $valueObject): bool
+    {
+        $this->instanceOf(get_class($valueObject));
+
+        return $this->os === $valueObject->os
+            && $this->screenSize === $valueObject->screenSize
+            && $this->screenResolution === $valueObject->screenResolution
+            && $this->releasedDate === $valueObject->releasedDate
+        ;
     }
 }

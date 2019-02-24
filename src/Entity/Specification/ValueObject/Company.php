@@ -5,8 +5,9 @@ declare(strict_types=1);
 namespace App\Entity\Specification\ValueObject;
 
 use App\Entity\Exception\Specification\UnknownCompanyException;
+use App\Entity\ValueObject;
 
-final class Company implements \JsonSerializable
+final class Company extends ValueObject implements \JsonSerializable
 {
     public const COMPANY_ALONESONG = 'ALONESUNG';
     public const COMPANY_MYPHONE = 'MYPHONE';
@@ -53,5 +54,12 @@ final class Company implements \JsonSerializable
         }
 
         return false;
+    }
+
+    public function sameValueAs(ValueObject $valueObject): bool
+    {
+        $this->instanceOf(get_class($valueObject));
+
+        return $this->company === $valueObject->company;
     }
 }
