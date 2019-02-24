@@ -22,9 +22,9 @@ To run tests execute following command:
 **TODO**
 
 - [x] Have a cup of coffee!
-- [x] Write a short documentation about the REST API.
-- [x] Refactor API's handling of errors
-- [x] Move deleting of smartphone logic out of the API Controller.
+- [] AggregateRoots need for business logic!
+- [] Value objects need for business logic!
+- [] Tests aren't coverage everything what is worth testing.
 
 **API**
 
