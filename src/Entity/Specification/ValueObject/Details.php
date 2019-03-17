@@ -29,7 +29,10 @@ final class Details extends ValueObject implements \JsonSerializable
     private function __construct(string $os, array $screenSize, array $screenResolution, \DateTimeImmutable $releasedDate)
     {
         if ($this->isOlderThanAcceptedReleaseDate($releasedDate)) {
-            throw new ReleasedTooLateException();
+            throw new ReleasedTooLateException(sprintf(
+                'Smartphone cannot be added if create before %s',
+                self::MINIMAL_ACCEPTED_RELEASED_DATE
+            ));
         }
 
         $this->os = $os;
@@ -70,6 +73,31 @@ final class Details extends ValueObject implements \JsonSerializable
         return $this->details;
     }
 
+    public function changeOs(string $os): self
+    {
+        return new self($os, $this->screenSize, $this->screenResolution, $this->releasedDate);
+    }
+
+    public function changeScreenSize(array $screenSize): self
+    {
+        return new self($this->os, $screenSize, $this->screenResolution, $this->releasedDate);
+    }
+
+    public function changeScreenResolution(array $screenResolution): self
+    {
+        return new self($this->os, $this->screenSize, $screenResolution, $this->releasedDate);
+    }
+
+    public function changeReleasedDate(\DateTimeImmutable $releasedDate): self
+    {
+        return new self($this->os, $this->screenSize, $this->screenResolution, $releasedDate);
+    }
+
+    public function __toString(): string
+    {
+        return json_encode($this);
+    }
+
     public function jsonSerialize(): array
     {
         return $this->details;
@@ -79,16 +107,12 @@ final class Details extends ValueObject implements \JsonSerializable
     {
         $minimalReleasedDate = new \DateTime(self::MINIMAL_ACCEPTED_RELEASED_DATE);
 
-        if ($releasedDate < $minimalReleasedDate) {
-            return true;
-        }
-
-        return false;
+        return $releasedDate < $minimalReleasedDate;
     }
 
     public function sameValueAs(ValueObject $valueObject): bool
     {
-        $this->instanceOf(get_class($valueObject));
+        $this->isInstanceOf($valueObject);
 
         return $this->os === $valueObject->os
             && $this->screenSize === $valueObject->screenSize

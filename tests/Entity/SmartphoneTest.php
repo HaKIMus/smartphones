@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\Model;
+namespace Tests\Entity;
 
 use App\Entity\Exception\Specification\ReleasedTooLateException;
 use App\Entity\Smartphone\Smartphone;
@@ -24,7 +24,7 @@ class SmartphoneTest extends TestCase
             Id::generate(),
             new Specification(
                 SpecificationId::generate(),
-                Company::fromList(Company::COMPANY_ALONESONG),
+                Company::fromString(Company::COMPANY_ALONESONG),
                 Model::fromString('Milky Way 2'),
                 Details::withDetails('SoS', [], [], new \DateTimeImmutable('01-01-2011'))
             )

@@ -21,7 +21,7 @@ final class Company extends ValueObject implements \JsonSerializable
 
     private $company;
 
-    public static function fromList(string $company): self
+    public static function fromString(string $company): self
     {
         return new self($company);
     }
@@ -40,11 +40,28 @@ final class Company extends ValueObject implements \JsonSerializable
         $this->company = $company;
     }
 
+    public function rename(string $newName): self
+    {
+        return new self($newName);
+    }
+
+    public function sameValueAs(ValueObject $valueObject): bool
+    {
+        $this->isInstanceOf($valueObject);
+
+        return $this->company === $valueObject->company;
+    }
+
     public function jsonSerialize(): array
     {
         return [
             'company' => $this->company,
         ];
+    }
+
+    public function __toString(): string
+    {
+        return $this->company;
     }
 
     private function givenCompanyExist(string $company): bool
@@ -54,12 +71,5 @@ final class Company extends ValueObject implements \JsonSerializable
         }
 
         return false;
-    }
-
-    public function sameValueAs(ValueObject $valueObject): bool
-    {
-        $this->instanceOf(get_class($valueObject));
-
-        return $this->company === $valueObject->company;
     }
 }

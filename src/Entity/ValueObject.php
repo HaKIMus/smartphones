@@ -8,22 +8,17 @@ use App\Entity\Exception\InvalidArgumentException;
 
 abstract class ValueObject
 {
-    final protected function instanceOf(string $valueObject)
+    final protected function isInstanceOf(ValueObject $valueObject): void
     {
-        if (!class_exists($valueObject)) {
-            throw new InvalidArgumentException(sprintf(
-                'Given class %s doesn\'t exist',
-                $valueObject
-            ));
-        }
-
-        if (!static::class instanceof $valueObject) {
+        if (! $valueObject instanceof static) {
             throw new InvalidArgumentException(sprintf(
                 'Instance of "%s" object required',
                 self::class
             ));
         }
     }
+
+    abstract public function __toString(): string;
 
     abstract public function sameValueAs(ValueObject $valueObject): bool;
 }

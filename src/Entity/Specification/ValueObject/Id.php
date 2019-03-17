@@ -32,14 +32,14 @@ final class Id extends ValueObject
         return $this->id;
     }
 
-    public function __toString()
+    public function __toString(): string
     {
         return (string) $this->id;
     }
 
     public function sameValueAs(ValueObject $valueObject): bool
     {
-        $this->instanceOf(get_class($valueObject));
+        $this->isInstanceOf($valueObject);
 
         return $this->id === $valueObject->id;
     }

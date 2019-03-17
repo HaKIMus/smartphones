@@ -23,7 +23,7 @@ class SmarpthoneFixture extends Fixture
                 Id::generate(),
                 new Specification(
                     SpecificationId::generate(),
-                    Company::fromList('alonesung'),
+                    Company::fromString('alonesung'),
                     Model::fromString('Milky Way 2'),
                     Details::withDetails('SoS', [], [], new \DateTimeImmutable('now'))
                 )

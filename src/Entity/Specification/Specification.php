@@ -72,4 +72,29 @@ use Ramsey\Uuid\Uuid;
     {
         return $this->details;
     }
+
+    public function compare(Specification $specification): array
+    {
+        $specificationDetails = $specification->details->details();
+
+        $differences = [];
+
+        foreach ($specificationDetails as $key => $specificationDetail) {
+            $specificationToCompareDetails = $this->details->details()[$key];
+
+            if ($specificationDetail !== $specificationToCompareDetails) {
+                $differences[] = [
+                    1 => $specificationDetail,
+                    'message' => 'Is different from',
+                    2 => $specificationToCompareDetails
+                ];
+            }
+        }
+
+        array_push($specificationDetails,['differences' => $differences]);
+
+        dump($specificationDetails);
+
+        return $specificationDetails;
+    }
 }

@@ -36,7 +36,7 @@ final class UpdateSmartphoneHandler
 
         $smartphone = $this->smartphones->findById(Id::fromString($smartphoneId));
 
-        $company = Company::fromList($company);
+        $company = Company::fromString($company);
         $model = Model::fromString($model);
         $details = Details::withDetails(
             $details->getOs(),

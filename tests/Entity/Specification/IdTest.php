@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\Entity\Smartphone;
+namespace Tests\Entity\Specification;
 
 use App\Entity\Smartphone\ValueObject\Id;
 use PHPUnit\Framework\TestCase;
@@ -14,6 +14,6 @@ class IdTest extends TestCase
         $firstId = Id::generate();
         $secondId = Id::generate();
 
-        $this->assertNotEquals($firstId, $secondId);
+        $this->assertFalse($firstId->sameValueAs($secondId));
     }
 }

@@ -33,7 +33,7 @@ class UpdateSmartphoneHandlerTest extends TestCase
 
         $specification = new Specification(
             SpecificationId::generate(),
-            Company::fromList(Company::COMPANY_ALONESONG),
+            Company::fromString(Company::COMPANY_ALONESONG),
             Model::fromString('Test'),
             Details::withDetails(
                 'SoS',

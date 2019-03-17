@@ -40,7 +40,7 @@ final class Id extends ValueObject
 
     public function sameValueAs(ValueObject $valueObject): bool
     {
-        $this->instanceOf(get_class($valueObject));
+        $this->isInstanceOf($valueObject);
 
         return $this->id === $valueObject->id;
     }

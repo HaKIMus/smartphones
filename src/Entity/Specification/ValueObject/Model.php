@@ -25,6 +25,11 @@ final class Model extends ValueObject implements \JsonSerializable
         return $this->model;
     }
 
+    public function changeModel(string $model): self
+    {
+        return new self($model);
+    }
+
     public function jsonSerialize(): array
     {
         return [
@@ -32,9 +37,14 @@ final class Model extends ValueObject implements \JsonSerializable
         ];
     }
 
+    public function __toString(): string
+    {
+        return $this->model;
+    }
+
     public function sameValueAs(ValueObject $valueObject): bool
     {
-        $this->instanceOf(get_class($valueObject));
+        $this->isInstanceOf($valueObject);
 
         return $this->model === $valueObject->model;
     }

@@ -35,7 +35,7 @@ final class CreateNewSmartphoneHandler
 
         $specification = new Specification(
             SpecificationId::generate(),
-            Company::fromList($company),
+            Company::fromString($company),
             Model::fromString($model),
             Details::withDetails(
                 $details->getOs(),
